@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "c22-56-n-webapp": "file:",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
