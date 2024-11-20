@@ -4,7 +4,7 @@ Este es un proyecto de una plataforma web para una distribuidora que permite a l
 
 ## Tecnologías Utilizadas
 
-- **Frontend**: React, JavaScript, Bootstrap
+- **Frontend**: React, JavaScript, Bootstrap, Axios, react router.dom
 - **Backend**: Node.js, Express.js
 - **Base de Datos**: MongoDB
 - **Autenticación**: JSON Web Tokens (JWT)
