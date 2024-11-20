@@ -1,6 +1,8 @@
 import express from 'express'
 import mainRoutes from './routes/mainRoutes';
 
+//Conectar DB
+
 const app = express();
 
 const PORT = process.env.PORT || 5000
