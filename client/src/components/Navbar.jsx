@@ -20,6 +20,18 @@ const Navbar = () => {
           <li>
             <a href="#contact">Contacto</a>
           </li>
+          {/* Botón Login */}
+          <li>
+            <a href="/login">
+              <button>Iniciar Sesión</button>
+            </a>
+          </li>
+          {/* Botón Register */}
+          <li>
+            <a href="/register">
+              <button>Registrarse</button>
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
