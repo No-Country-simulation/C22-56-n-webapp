@@ -1,11 +1,15 @@
 import express from 'express'
-import mainRoutes from './routes/mainRoutes';
+import mainRoutes from './routes/mainRoutes.js';
+import connectMongoDB from './config/database.js';
 
 //Conectar DB
 
 const app = express();
 
 const PORT = process.env.PORT || 5000
+
+// conexion a la base de datos
+connectMongoDB();
 
 //Principal
 app.use('/', (req, res) => {
