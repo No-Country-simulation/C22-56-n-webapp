@@ -1,0 +1,9 @@
+token nuevo 17 nov 2024 fue generado
+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
+
+git push https://<GITHUB_ACCESS_TOKEN>@github.com/<GITHUB_USERNAME>/<REPOSITORY_NAME>.git
+
+como aplicarlo 
+
+git push https://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@github.com/No-Country-simulation/C22-56-n-webapp
+

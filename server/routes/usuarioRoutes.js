@@ -1,6 +1,6 @@
 import express from 'express'
-import rolMiddleware from '../middleware/rolMiddleware'
-import { getAllUsers, getUserById, updateUser, deleteUser } from '../controllers/userController'
+import rolMiddleware from '../middleware/rolMiddleware.js'
+import { getAllUsers, getUserById, updateUser, deleteUser } from '../controllers/userController.js'
 
 const router = express.Router()
 
