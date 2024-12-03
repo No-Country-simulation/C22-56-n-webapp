@@ -1,50 +1,59 @@
-import dotenv from 'dotenv';
-import mongoose from 'mongoose';
-import fs from 'fs';
-import path from 'path';
-
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import fs from "fs";
+import path from "path";
 
 dotenv.config();
 
+// Asegurarse de que las variables de entorno estén definidas
+const { MONGODB_URI } = process.env;
+
+if (!MONGODB_URI) {
+  console.error("Falta la variable de entorno MONGODB_URI.");
+  process.exit(1);
+}
+
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
-const modelsPath = path.join(__dirname, '../models');
+const modelsPath = path.resolve(__dirname, "../models");
 
-const uri = process.env.MONGODB_URI;
-
+/**
+ * Función para conectar a MongoDB y cargar los modelos dinámicamente.
+ */
 async function connectMongoDB() {
-  try{
-    const modelDefiners = [];    
-    
-    // Verificar si la carpeta existe
+  try {
+    // Verificar si la carpeta 'models' existe
     if (!fs.existsSync(modelsPath)) {
-      console.error("La carpeta 'models' no existe en la ruta especificada:", modelsPath);
+      console.error(`La carpeta 'models' no existe en la ruta: ${modelsPath}`);
       process.exit(1);
     }
 
-    // Leer los archivos en la carpeta de modelos
-    const modelFiles = fs.readdirSync(modelsPath)
-      .filter(
-        (file) =>
-          file.indexOf(".") !== 0 && file.slice(-3) === ".js" // Solo archivos .js
-      );
+    // Cargar todos los archivos de modelos dinámicamente
+    const modelFiles = fs
+      .readdirSync(modelsPath)
+      .filter((file) => file.endsWith(".js") && !file.startsWith("."));
 
-    // Importar los modelos usando import dinámico
+    if (modelFiles.length === 0) {
+      console.warn(`No se encontraron modelos en la carpeta: ${modelsPath}`);
+    }
+
+    // Cargar los modelos de manera dinámica
+    const modelDefiners = [];
     for (const file of modelFiles) {
-      const model = await import(path.join(modelsPath, file));
-      modelDefiners.push(model);
+      try {
+        const model = await import(path.join(modelsPath, file));
+        modelDefiners.push(model);
+        console.log(`Modelo cargado: ${file}`);
+      } catch (error) {
+        console.error(`Error al cargar el modelo ${file}:`, error);
+      }
     }
 
     // Conectar a MongoDB
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,           
-    });
-
-    console.log('MongoDB connection');
-
-  }catch(error){
-    console.log('MongoDB connection failed', error);
-    process.exit(1)
+    await mongoose.connect(MONGODB_URI);
+    console.log("Conexión exitosa a MongoDB.");
+  } catch (error) {
+    console.error("Error en la conexión a MongoDB:", error);
+    process.exit(1);
   }
 }
 
