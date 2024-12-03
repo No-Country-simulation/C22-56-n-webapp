@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Importamos Link para las rutas
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,39 +20,63 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Iniciar Sesión</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label htmlFor="email">Correo Electrónico:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card shadow">
+            <div className="card-body">
+              <h2 className="text-center mb-4">Iniciar Sesión</h2>
+              <form onSubmit={handleLogin}>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">
+                    Correo Electrónico:
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    className="form-control"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Contraseña:
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    className="form-control"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                {errorMessage && (
+                  <div className="alert alert-danger" role="alert">
+                    {errorMessage}
+                  </div>
+                )}
+                <button type="submit" className="btn btn-primary w-100">
+                  Iniciar Sesión
+                </button>
+              </form>
+              <p className="text-center mt-3">
+                ¿No tienes cuenta?{" "}
+                <Link to="/register" className="text-decoration-none">
+                  Regístrate aquí
+                </Link>
+              </p>
+              <p className="text-center">
+                <Link to="/" className="text-decoration-none">
+                  Volver al Inicio
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
-        <div>
-          <label htmlFor="password">Contraseña:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {errorMessage && <p>{errorMessage}</p>}
-        <button type="submit">Iniciar Sesión</button>
-      </form>
-      <p>
-        ¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link>
-      </p>
-      <p>
-        <Link to="/">Volver al Inicio</Link>{" "}
-        {/* Enlace que redirige a la ruta principal */}
-      </p>
+      </div>
     </div>
   );
 };

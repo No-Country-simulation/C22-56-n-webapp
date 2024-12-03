@@ -22,49 +22,76 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h2>Registro</h2>
-      <form onSubmit={handleRegister}>
-        <div>
-          <label htmlFor="email">Correo Electrónico:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card shadow">
+            <div className="card-body">
+              <h2 className="text-center mb-4">Registro</h2>
+              <form onSubmit={handleRegister}>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">
+                    Correo Electrónico:
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    className="form-control"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Contraseña:
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    className="form-control"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="confirmPassword" className="form-label">
+                    Confirmar Contraseña:
+                  </label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    className="form-control"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                {errorMessage && (
+                  <div className="alert alert-danger" role="alert">
+                    {errorMessage}
+                  </div>
+                )}
+                <button type="submit" className="btn btn-primary w-100">
+                  Registrarse
+                </button>
+              </form>
+              <p className="text-center mt-3">
+                ¿Ya tienes cuenta?{" "}
+                <Link to="/login" className="text-decoration-none">
+                  Inicia sesión aquí
+                </Link>
+              </p>
+              <p className="text-center">
+                <Link to="/" className="text-decoration-none">
+                  Volver al Inicio
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
-        <div>
-          <label htmlFor="password">Contraseña:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="confirmPassword">Confirmar Contraseña:</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        {errorMessage && <p>{errorMessage}</p>}
-        <button type="submit">Registrarse</button>
-      </form>
-      <p>
-        ¿Ya tienes cuenta? <Link to="/login">Inicia sesión aquí</Link>
-      </p>
-      <p>
-        <Link to="/">Volver al Inicio</Link>{" "}
-        {/* Enlace que redirige a la ruta principal */}
-      </p>
+      </div>
     </div>
   );
 };
