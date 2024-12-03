@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import axios from "axios";
+
+axios.defaults.baseURL = "";
 
 const App = () => {
   return (
