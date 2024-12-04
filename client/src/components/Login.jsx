@@ -8,14 +8,11 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-
-    // Aquí puedes agregar lógica para la autenticación
     if (email === "" || password === "") {
       setErrorMessage("Por favor, complete todos los campos.");
     } else {
       setErrorMessage("");
       console.log("Autenticando...", email, password);
-      // Llamada a la API o lógica para iniciar sesión
     }
   };
 

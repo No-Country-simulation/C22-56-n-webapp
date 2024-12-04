@@ -8,6 +8,7 @@ import Product from "./components/ProductList";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import About from "./components/abouts";
+import Detail from "./components/ProdcutDetails";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -17,11 +18,8 @@ const App = () => {
   return (
     <Router>
       <div className="d-flex flex-column min-vh-100">
-        {/* Navbar siempre estará en la parte superior */}
         <Navbar />
-
         <div className="flex-grow-1">
-          {/* Rutas de la aplicación */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -29,10 +27,9 @@ const App = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/product" element={<Product />} />
             <Route path="/about" element={<About />} />
+            <Route path="/detail/:productId" element={<Detail />} />
           </Routes>
         </div>
-
-        {/* Footer siempre estará al final */}
         <Footer />
       </div>
     </Router>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Importamos Link para las rutas
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +17,6 @@ const Register = () => {
     } else {
       setErrorMessage("");
       console.log("Registrando...", email, password);
-      // Llamada a la API o lógica para registrar
     }
   };
 

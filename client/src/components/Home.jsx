@@ -13,30 +13,26 @@ const Home = () => {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVnUUlznWyPPUqhNyTwYAlyucKxdvzoeDdRw&s",
   ];
 
-  // Estado para manejar la imagen activa en el carrusel
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isLogoVisible, setIsLogoVisible] = useState(true); // Estado para controlar la visibilidad del logo grande
-  const [fadeOut, setFadeOut] = useState(false); // Estado para controlar el fade out del logo
+  const [isLogoVisible, setIsLogoVisible] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
 
-  // Efecto para cambiar automáticamente la imagen cada 3 segundos
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % productImages.length);
-    }, 3500); // Cambia de imagen cada 3 segundos
+    }, 3500);
 
-    // Limpiar el intervalo cuando el componente se desmonte
     return () => clearInterval(interval);
   }, []);
 
-  // Efecto para manejar la transición del logo
   useEffect(() => {
     const timer = setTimeout(() => {
-      setFadeOut(true); // Activar el fade out
-    }, 3000); // Después de 3 segundos, comienza el fade out
+      setFadeOut(true);
+    }, 3000);
 
     const logoDisappearTimer = setTimeout(() => {
-      setIsLogoVisible(false); // Después de un pequeño retraso, cambia el logo a tamaño pequeño
-    }, 4000); // Lo hace desaparecer después de 1 segundo de desvanecimiento
+      setIsLogoVisible(false);
+    }, 4000);
 
     return () => {
       clearTimeout(timer);
@@ -45,122 +41,65 @@ const Home = () => {
   }, []);
 
   return (
-    <div style={styles.container}>
-      {/* Logo que aparece grande al principio */}
+    <div className="container text-center pt-5">
       {isLogoVisible && (
-        <div style={styles.logoContainer}>
+        <div className="mb-4" style={{ position: "relative" }}>
           <img
             src={Logo}
             alt="Logo"
+            className={`rounded-circle transition-opacity duration-1000 ${
+              fadeOut ? "opacity-0 scale-75" : "opacity-100 scale-100"
+            }`}
             style={{
-              ...styles.logoLarge,
-              opacity: fadeOut ? 0 : 1, // Aplicar la opacidad cuando se haga fade out
-              transform: fadeOut ? "scale(0.5)" : "scale(1)", // Reducir el tamaño al mismo tiempo
-              transition: "opacity 1s ease, transform 1s ease", // Transición suave para el tamaño y opacidad
+              width: "300px",
+              height: "300px",
+              objectFit: "cover",
+              transition: "opacity 1s, transform 1s",
             }}
           />
         </div>
       )}
 
-      {/* Contenedor para varios carruseles */}
       {!isLogoVisible && (
         <>
-          {/* Logo pequeño al inicio de los carruseles */}
-          <div style={styles.smallLogoContainer}>
-            <img src={Logo} alt="Logo" style={styles.logo} />
+          <div className="position-relative mb-4" style={{ marginTop: "30px" }}>
+            <img
+              src={Logo}
+              alt="Logo"
+              className="rounded-circle"
+              style={{
+                width: "100px",
+                height: "100px",
+                objectFit: "cover",
+                marginTop: "-50px",
+                marginBottom: "-50px",
+              }}
+            />
           </div>
 
-          <div style={styles.carouselContainer}>
-            {/* Carrusel 1 */}
-            <div style={styles.carousel}>
-              <div style={styles.imageContainer}>
-                <img
-                  src={productImages[currentIndex]}
-                  alt={`Product ${currentIndex}`}
-                  style={styles.image}
-                />
+          <div className="d-flex justify-content-center gap-3 mt-5 pt-5">
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                className="d-flex align-items-center justify-content-center"
+                style={{ width: "500px", height: "300px" }}
+              >
+                <div className="overflow-hidden w-100 h-100">
+                  <img
+                    src={
+                      productImages[(currentIndex + i) % productImages.length]
+                    }
+                    alt={`Product ${(currentIndex + i) % productImages.length}`}
+                    className="w-100 h-100 object-fit-cover"
+                  />
+                </div>
               </div>
-            </div>
-
-            {/* Carrusel 2 */}
-            <div style={styles.carousel}>
-              <div style={styles.imageContainer}>
-                <img
-                  src={productImages[(currentIndex + 1) % productImages.length]}
-                  alt={`Product ${(currentIndex + 1) % productImages.length}`}
-                  style={styles.image}
-                />
-              </div>
-            </div>
-
-            {/* Carrusel 3 */}
-            <div style={styles.carousel}>
-              <div style={styles.imageContainer}>
-                <img
-                  src={productImages[(currentIndex + 2) % productImages.length]}
-                  alt={`Product ${(currentIndex + 2) % productImages.length}`}
-                  style={styles.image}
-                />
-              </div>
-            </div>
+            ))}
           </div>
         </>
       )}
     </div>
   );
-};
-
-const styles = {
-  container: {
-    textAlign: "center", // Centra todo el contenido
-    padding: "20px",
-    marginTop: "80px", // Agrega un margen superior para desplazar el contenido hacia abajo, evitando la navbar
-  },
-  logoContainer: {
-    marginBottom: "20px", // Espacio entre el logo y los carruseles
-  },
-  logoLarge: {
-    width: "300px", // Logo grande al principio
-    height: "300px",
-    borderRadius: "50%",
-    objectFit: "cover",
-  },
-  smallLogoContainer: {
-    position: "absolute", // Fija el logo pequeño arriba de los carruseles
-    top: "140px", // Ajusta la distancia desde la parte superior de la página
-    left: "50%", // Centra el logo
-    transform: "translateX(-50%)", // Centra el logo horizontalmente
-    marginBottom: "20px", // Espacio entre el logo pequeño y los carruseles
-  },
-  logo: {
-    width: "100px", // Logo pequeño
-    height: "100px",
-    borderRadius: "50%",
-    objectFit: "cover",
-  },
-  carouselContainer: {
-    display: "flex", // Organiza los carruseles en una fila
-    justifyContent: "center", // Centra los carruseles en el contenedor
-    gap: "20px", // Espacio entre los carruseles
-    marginTop: "30px",
-  },
-  carousel: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "500px", // Ajusta el tamaño del carrusel
-    height: "300px", // Ajusta el tamaño del carrusel
-  },
-  imageContainer: {
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-  },
 };
 
 export default Home;

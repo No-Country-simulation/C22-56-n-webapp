@@ -1,39 +1,32 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-function ProductDetails({ productId }) {
+function ProductDetails() {
+  const { productId } = useParams();
   const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Obtener los detalles del producto desde la API con axios
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        // Realizar la solicitud GET con axios
         const response = await axios.get(`producto/${productId}`);
-
-        // Al recibir los datos, los almacenamos en el estado 'producto'
         setProducto(response.data);
       } catch (err) {
-        // Si ocurre un error, actualizamos el estado 'error'
         setError(
           "No se pudo obtener el producto. " +
             (err.response ? err.response.data.error : err.message)
         );
       } finally {
-        // Independientemente del resultado, dejamos de mostrar "Cargando..."
         setLoading(false);
       }
     };
 
     fetchProduct();
-  }, [productId]); // El hook se vuelve a ejecutar solo si cambia 'productId'
+  }, [productId]);
 
-  // Si está cargando, mostramos un mensaje
   if (loading) return <p>Cargando...</p>;
-
-  // Si hubo un error, mostramos el mensaje de error
   if (error) return <p>Error: {error}</p>;
 
   return (
@@ -43,6 +36,7 @@ function ProductDetails({ productId }) {
         padding: "20px",
         borderRadius: "8px",
         maxWidth: "600px",
+        margin: "auto",
       }}
     >
       {producto ? (
