@@ -8,9 +8,14 @@ function About() {
           <h1 className="display-4 text-primary">Nuestra Historia</h1>
         </div>
         <div className="col-12 col-md-8 mx-auto">
-          <div className="card shadow-lg">
+          <div className="card shadow-lg border-light">
+            <img
+              src="https://www.maitenalimentossaludables.com.ar/img/almacen01.jpg"
+              className="card-img-top"
+              alt="Imagen representativa de la empresa"
+            />
             <div className="card-body">
-              <h2 className="card-title text-success">
+              <h2 className="card-title text-success mb-3">
                 Distri App: Innovación en Distribución
               </h2>
               <p className="card-text">
@@ -35,8 +40,8 @@ function About() {
                 hacia un futuro lleno de nuevas oportunidades para seguir
                 liderando el mercado.
               </p>
-              <blockquote className="blockquote mt-4">
-                <p>
+              <blockquote className="blockquote mt-4 border-start border-5 border-success ps-3">
+                <p className="mb-0">
                   "Nuestra misión es hacer la distribución más inteligente y
                   accesible para todos." – Equipo Distri App
                 </p>

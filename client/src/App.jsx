@@ -9,6 +9,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import About from "./components/abouts";
 import Detail from "./components/ProdcutDetails";
+import { CartProvider } from "./context/CartContext";
+import Cart from "./components/Cart";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -16,23 +18,26 @@ axios.defaults.baseURL = "http://localhost:5000/api/";
 
 const App = () => {
   return (
-    <Router>
-      <div className="d-flex flex-column min-vh-100">
-        <Navbar />
-        <div className="flex-grow-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/product" element={<Product />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/detail/:productId" element={<Detail />} />
-          </Routes>
+    <CartProvider>
+      <Router>
+        <div className="d-flex flex-column min-vh-100">
+          <Navbar />
+          <div className="flex-grow-1">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/product" element={<Product />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/detail/:productId" element={<Detail />} />
+              <Route path="/cart" element={<Cart />} />
+            </Routes>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </Router>
+      </Router>
+    </CartProvider>
   );
 };
 
