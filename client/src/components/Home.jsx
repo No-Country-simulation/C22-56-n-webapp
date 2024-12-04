@@ -28,19 +28,44 @@ const Home = () => {
 
   return (
     <div style={styles.container}>
-      {/* Logo encima del carrusel */}
+      {/* Logo encima de los carruseles */}
       <div style={styles.logoContainer}>
         <img src={Logo} alt="Logo" style={styles.logo} />
       </div>
 
-      {/* Carrusel de imágenes */}
-      <div style={styles.carousel}>
-        <div style={styles.imageContainer}>
-          <img
-            src={productImages[currentIndex]}
-            alt={`Product ${currentIndex}`}
-            style={styles.image}
-          />
+      {/* Contenedor para varios carruseles */}
+      <div style={styles.carouselContainer}>
+        {/* Carrusel 1 */}
+        <div style={styles.carousel}>
+          <div style={styles.imageContainer}>
+            <img
+              src={productImages[currentIndex]}
+              alt={`Product ${currentIndex}`}
+              style={styles.image}
+            />
+          </div>
+        </div>
+
+        {/* Carrusel 2 */}
+        <div style={styles.carousel}>
+          <div style={styles.imageContainer}>
+            <img
+              src={productImages[(currentIndex + 1) % productImages.length]}
+              alt={`Product ${(currentIndex + 1) % productImages.length}`}
+              style={styles.image}
+            />
+          </div>
+        </div>
+
+        {/* Carrusel 3 */}
+        <div style={styles.carousel}>
+          <div style={styles.imageContainer}>
+            <img
+              src={productImages[(currentIndex + 2) % productImages.length]}
+              alt={`Product ${(currentIndex + 2) % productImages.length}`}
+              style={styles.image}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -53,7 +78,7 @@ const styles = {
     padding: "20px",
   },
   logoContainer: {
-    marginBottom: "20px", // Espacio entre el logo y el carrusel
+    marginBottom: "20px", // Espacio entre el logo y los carruseles
   },
   logo: {
     width: "150px", // Ajusta el tamaño del logo
@@ -61,16 +86,22 @@ const styles = {
     borderRadius: "50%", // Esto hace que el logo sea redondo
     objectFit: "cover", // Asegura que la imagen se recorte correctamente para mantener la forma redonda
   },
+  carouselContainer: {
+    display: "flex", // Organiza los carruseles en una fila
+    justifyContent: "center", // Centra los carruseles en el contenedor
+    gap: "20px", // Espacio entre los carruseles
+    marginTop: "30px",
+  },
   carousel: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: "20px",
-    marginTop: "30px",
+    width: "500px", // Ajusta el tamaño del carrusel
+    height: "300px", // Ajusta el tamaño del carrusel
   },
   imageContainer: {
-    width: "500px",
-    height: "300px",
+    width: "100%",
+    height: "100%",
     overflow: "hidden",
   },
   image: {
