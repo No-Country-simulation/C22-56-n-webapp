@@ -10,7 +10,7 @@ import Register from "../components/Register";
 
 const RegisterModal = ({ open, onClose }) => {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
       <DialogTitle>Registrarse</DialogTitle>
       <DialogContent>
         <Register />
