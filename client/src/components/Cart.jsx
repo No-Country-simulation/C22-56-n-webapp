@@ -1,6 +1,9 @@
 import React from "react";
 import { useCart } from "../context/CartContext";
 import { FaTrashAlt } from "react-icons/fa";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+import logo from "../assets/logo.jpg";
 
 function Cart() {
   const { cart, setCart, products, setProducts } = useCart();
@@ -32,7 +35,6 @@ function Cart() {
     return cart.filter((product) => product.id === productId).length;
   };
 
-  // Create a map to display unique products with their total counts
   const uniqueProducts = Array.from(
     cart
       .reduce((acc, product) => {
@@ -47,10 +49,60 @@ function Cart() {
       .values()
   );
 
-  // Calculate the total price of all products in the cart
   const totalPrice = uniqueProducts.reduce((sum, product) => {
     return sum + product.price * product.count;
   }, 0);
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.setFont("helvetica", "normal");
+
+    const logoSize = 40;
+    const logoX = 10;
+    const logoY = 10;
+    doc.setFillColor(255, 255, 255);
+    doc.ellipse(
+      logoX + logoSize / 2,
+      logoY + logoSize / 2,
+      logoSize / 2,
+      logoSize / 2,
+      "F"
+    );
+    doc.addImage(logo, "PNG", logoX, logoY, logoSize, logoSize);
+
+    doc.setFontSize(16);
+    doc.text("TICKET DE COMPRA", 200, 30, { align: "right" });
+
+    doc.autoTable({
+      startY: 60,
+      head: [["Producto", "Cantidad", "Precio Unitario", "Total"]],
+      body: uniqueProducts.map((product) => [
+        product.name,
+        product.count,
+        `$${product.price.toFixed(2)}`,
+        `$${(product.price * product.count).toFixed(2)}`,
+      ]),
+      theme: "striped",
+      tableWidth: "auto",
+    });
+
+    doc.setFontSize(12);
+    doc.text(
+      `Total de la compra: $${totalPrice.toFixed(2)}`,
+      10,
+      doc.lastAutoTable.finalY + 10
+    );
+
+    const pageHeight = doc.internal.pageSize.height;
+    doc.setFontSize(10);
+    doc.text(
+      `Fecha: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+      10,
+      pageHeight - 10
+    );
+
+    doc.save("ticket_compra.pdf");
+  };
 
   return (
     <div className="container mt-4">
@@ -99,6 +151,9 @@ function Cart() {
       {uniqueProducts.length > 0 && (
         <div className="mt-4 text-center">
           <h4>Total de la compra: ${totalPrice.toFixed(2)}</h4>
+          <button className="btn btn-primary mt-3" onClick={generatePDF}>
+            Finalizar compra
+          </button>
         </div>
       )}
     </div>
