@@ -1,30 +1,27 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useProducts } from "../context/ProductsContext";
 
 function ProductDetails() {
   const { productId } = useParams();
+  const { products } = useProducts();
   const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await axios.get(`producto/${productId}`);
-        setProducto(response.data);
-      } catch (err) {
-        setError(
-          "No se pudo obtener el producto. " +
-            (err.response ? err.response.data.error : err.message)
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProduct();
-  }, [productId]);
+    // Check if the product data is already in context
+    const foundProduct = products.find(
+      (product) => product.id === parseInt(productId, 10)
+    );
+    if (foundProduct) {
+      setProducto(foundProduct);
+      setLoading(false);
+    } else {
+      setError("Producto no encontrado en el contexto.");
+      setLoading(false);
+    }
+  }, [productId, products]);
 
   if (loading) {
     return (
@@ -32,7 +29,6 @@ function ProductDetails() {
         className="d-flex justify-content-center align-items-center"
         style={{ height: "100vh" }}
       >
-        {/* Spinner de Bootstrap */}
         <div className="spinner-border" role="status">
           <span className="visually-hidden">Cargando...</span>
         </div>
@@ -41,43 +37,33 @@ function ProductDetails() {
     );
   }
 
-  if (error) return <p>Error: {error}</p>;
+  if (error) return <p className="text-danger">Error: {error}</p>;
 
   return (
-    <div
-      style={{
-        border: "1px solid #ccc",
-        padding: "20px",
-        borderRadius: "8px",
-        maxWidth: "600px",
-        margin: "auto",
-      }}
-    >
+    <div className="container mt-5">
       {producto ? (
-        <>
-          <h2>{producto.nombre}</h2>
-          <p>
-            <strong>Descripción:</strong> {producto.descripcion}
-          </p>
-          <p>
-            <strong>Categoría:</strong> {producto.categoria}
-          </p>
-          <p>
-            <strong>Precio:</strong> ${producto.precio}
-          </p>
-          <p>
-            <strong>Cantidad disponible:</strong> {producto.cantidad}
-          </p>
-          <p>
-            <strong>Fecha de creación:</strong>{" "}
-            {new Date(producto.fechaCreacion).toLocaleDateString()}
-          </p>
-          <p>
-            <strong>Valor total:</strong> ${producto.precio * producto.cantidad}
-          </p>
-        </>
+        <div className="card mx-auto" style={{ maxWidth: "600px" }}>
+          <img
+            src={producto.image}
+            alt={producto.name}
+            className="card-img-top"
+            style={{ objectFit: "cover", height: "300px" }}
+          />
+          <div className="card-body">
+            <h5 className="card-title">{producto.name}</h5>
+            <p className="card-text">
+              <strong>Descripción:</strong> {producto.description}
+            </p>
+            <p className="card-text">
+              <strong>Precio:</strong> ${producto.price}
+            </p>
+            <p className="card-text">
+              <strong>Cantidad disponible:</strong> {producto.stock}
+            </p>
+          </div>
+        </div>
       ) : (
-        <p>Producto no encontrado.</p>
+        <p className="text-center">Producto no encontrado.</p>
       )}
     </div>
   );
