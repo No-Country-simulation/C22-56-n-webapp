@@ -73,26 +73,46 @@ function Cart() {
     doc.setFontSize(16);
     doc.text("TICKET DE COMPRA", 200, 30, { align: "right" });
 
-    doc.autoTable({
-      startY: 60,
-      head: [["Producto", "Cantidad", "Precio Unitario", "Total"]],
-      body: uniqueProducts.map((product) => [
-        product.name,
-        product.count,
+    let startY = 60; // Posición inicial para la tabla y las imágenes
+    const imageSize = 20; // Tamaño de la imagen (en mm)
+
+    uniqueProducts.forEach((product, index) => {
+      const xImage = 10; // Coordenada X para la imagen
+      const yImage = startY + index * (imageSize + 10); // Coordenada Y para la imagen y el texto
+
+      // Agregar la imagen redonda del producto al PDF
+      doc.setFillColor(255, 255, 255); // Fondo blanco
+      doc.ellipse(
+        xImage + imageSize / 2,
+        yImage + imageSize / 2,
+        imageSize / 2,
+        imageSize / 2,
+        "F"
+      );
+      doc.addImage(product.image, "PNG", xImage, yImage, imageSize, imageSize);
+
+      // Agregar texto con el nombre, cantidad y precio del producto
+      doc.setFontSize(12);
+      doc.text(product.name, xImage + imageSize + 5, yImage + 5);
+      doc.text(
+        `Cantidad: ${product.count}`,
+        xImage + imageSize + 5,
+        yImage + 10
+      );
+      doc.text(
         `$${product.price.toFixed(2)}`,
-        `$${(product.price * product.count).toFixed(2)}`,
-      ]),
-      theme: "striped",
-      tableWidth: "auto",
+        xImage + imageSize + 5,
+        yImage + 15
+      );
+
+      startY = yImage + imageSize + 10; // Actualizar la posición de Y para el próximo producto
     });
 
+    // Agregar el total de la compra
     doc.setFontSize(12);
-    doc.text(
-      `Total de la compra: $${totalPrice.toFixed(2)}`,
-      10,
-      doc.lastAutoTable.finalY + 10
-    );
+    doc.text(`Total de la compra: $${totalPrice.toFixed(2)}`, 10, startY + 10);
 
+    // Agregar la fecha de la compra
     const pageHeight = doc.internal.pageSize.height;
     doc.setFontSize(10);
     doc.text(
@@ -101,6 +121,7 @@ function Cart() {
       pageHeight - 10
     );
 
+    // Guardar el PDF
     doc.save("ticket_compra.pdf");
 
     const newOrder = {
@@ -138,18 +159,30 @@ function Cart() {
                 style={{ borderRadius: "0.5rem" }}
               >
                 <div className="card-body d-flex justify-content-between align-items-start">
-                  <div>
-                    <h5 className="card-title mb-1">{product.name}</h5>
-                    <p className="card-text mb-2">Precio: ${product.price}</p>
-                    <p className="card-text mb-2">
-                      Descripción: {product.description}
-                    </p>
-                    <small className="text-muted">
-                      Cantidad: {product.count}
-                    </small>
-                    <h6 className="mt-2 text-success">
-                      Total: ${totalPriceProduct.toFixed(2)}
-                    </h6>
+                  <div className="d-flex align-items-center">
+                    <img
+                      src={product.image} // Asegúrate de que `product.image` contenga la URL de la imagen
+                      alt={product.name}
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "50%",
+                        marginRight: "15px",
+                      }}
+                    />
+                    <div>
+                      <h5 className="card-title mb-1">{product.name}</h5>
+                      <p className="card-text mb-2">Precio: ${product.price}</p>
+                      <p className="card-text mb-2">
+                        Descripción: {product.description}
+                      </p>
+                      <small className="text-muted">
+                        Cantidad: {product.count}
+                      </small>
+                      <h6 className="mt-2 text-success">
+                        Total: ${totalPriceProduct.toFixed(2)}
+                      </h6>
+                    </div>
                   </div>
                   <button
                     className="btn btn-danger btn-sm"
