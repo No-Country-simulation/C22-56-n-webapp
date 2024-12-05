@@ -66,7 +66,10 @@ function OrderHistory() {
   };
 
   return (
-    <div className="d-flex flex-column min-vh-100">
+    <div
+      className="d-flex flex-column min-vh-100"
+      style={{ marginTop: "40px" }}
+    >
       <div className="flex-grow-1">
         <h2 className="text-center mb-4">Historial de Compras</h2>
         {orderHistory.length === 0 ? (
@@ -78,7 +81,7 @@ function OrderHistory() {
                 <div
                   key={index}
                   className="card mb-3 shadow-sm"
-                  style={{ borderRadius: "0.5rem" }}
+                  style={{ borderRadius: "0.5rem", marginTop: "20px" }}
                 >
                   <div className="card-body">
                     <h5 className="card-title">
@@ -114,14 +117,17 @@ function OrderHistory() {
               </button>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4" style={{ marginTop: "20px" }}>
               <h4>Ventas por Día</h4>
               <Line data={getChartData()} />
             </div>
           </>
         )}
       </div>
-      <footer className="text-center mt-4 py-3"></footer>
+      <footer
+        className="text-center mt-4 py-3"
+        style={{ marginTop: "20px" }}
+      ></footer>
     </div>
   );
 }

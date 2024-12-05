@@ -75,22 +75,22 @@ const Navbar = () => {
 
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
+              <li className="nav-item me-3">
                 <a className="nav-link" href="/">
                   Inicio
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item me-3">
                 <a className="nav-link" href="/about">
                   Acerca de
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item me-3">
                 <a className="nav-link" href="/product">
                   Productos
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item me-3">
                 <button
                   className="btn btn-outline-primary me-2"
                   onClick={() => setShowLoginModal(true)}
@@ -98,7 +98,7 @@ const Navbar = () => {
                   Iniciar Sesión
                 </button>
               </li>
-              <li className="nav-item">
+              <li className="nav-item me-3">
                 <button
                   className="btn btn-primary me-2"
                   onClick={() => setShowRegisterModal(true)}
@@ -106,7 +106,7 @@ const Navbar = () => {
                   Registrarse
                 </button>
               </li>
-              <li className="nav-item">
+              <li className="nav-item me-3">
                 <button
                   className="btn btn-secondary"
                   onClick={() => setShowContactModal(true)}
@@ -114,16 +114,16 @@ const Navbar = () => {
                   Contacto
                 </button>
               </li>
-              <li className="nav-item">
+              <li className="nav-item me-3">
                 <button
-                  className="btn btn-light position-relative me-3"
+                  className="btn btn-light position-relative"
                   onClick={goToHistory}
                   style={{ border: "none", background: "none" }}
                 >
                   <FaChartLine size={24} color="#007bff" />
                 </button>
               </li>
-              <li className="nav-item">
+              <li className="nav-item me-3">
                 <button
                   className="btn btn-light position-relative"
                   onClick={goToCart}

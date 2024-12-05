@@ -36,8 +36,9 @@ const Home = () => {
     <div
       className="d-flex justify-content-center align-items-center"
       style={{
-        height: "125vh",
+        height: "100vh",
         flexDirection: "column",
+        overflowY: "auto",
       }}
     >
       <img
@@ -45,8 +46,10 @@ const Home = () => {
         alt="Logo"
         className="rounded-circle"
         style={{
-          width: "250px",
-          height: "250px",
+          marginTop: "50px",
+          marginBottom: "-50px",
+          width: "10vw",
+          height: "10vw",
           objectFit: "cover",
           objectPosition: "center",
         }}
@@ -58,8 +61,10 @@ const Home = () => {
             key={index}
             className="m-2"
             style={{
-              width: "150px",
-              height: "150px",
+              width: "15vw",
+              height: "15vw",
+              maxWidth: "150px",
+              maxHeight: "150px",
               overflow: "hidden",
               borderRadius: "50%",
             }}

@@ -137,7 +137,10 @@ function Cart() {
   };
 
   return (
-    <div className="d-flex flex-column min-vh-100">
+    <div
+      className="d-flex flex-column min-vh-100"
+      style={{ marginTop: "40px" }}
+    >
       <div className="flex-grow-1">
         <h2 className="text-center mb-4">Carrito de Compras</h2>
         {uniqueProducts.length === 0 ? (
@@ -152,7 +155,7 @@ function Cart() {
                 <div
                   key={product.id}
                   className="card mb-3 shadow-sm"
-                  style={{ borderRadius: "0.5rem" }}
+                  style={{ borderRadius: "0.5rem", marginTop: "20px" }}
                 >
                   <div className="card-body d-flex justify-content-between align-items-start">
                     <div className="d-flex align-items-center">
@@ -196,7 +199,7 @@ function Cart() {
           </div>
         )}
         {uniqueProducts.length > 0 && (
-          <div className="mt-4 text-center">
+          <div className="mt-4 text-center" style={{ marginTop: "20px" }}>
             <h4>Total de la compra: ${totalPrice.toFixed(2)}</h4>
             <button className="btn btn-primary mt-3" onClick={generatePDF}>
               Finalizar compra
@@ -204,7 +207,10 @@ function Cart() {
           </div>
         )}
       </div>
-      <footer className="text-center mt-4 py-3"></footer>
+      <footer
+        className="text-center mt-4 py-3"
+        style={{ marginTop: "20px" }}
+      ></footer>
     </div>
   );
 }
