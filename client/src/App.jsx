@@ -8,7 +8,7 @@ import ProductList from "./components/ProductList";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import About from "./components/abouts";
-import ProductDetails from "./components/ProdcutDetails";
+import ProductDetails from "./components/ProductDetails";
 import { CartProvider } from "./context/CartContext";
 import { ProductsProvider } from "./context/ProductsContext";
 import History from "./components/OrderHistory";
