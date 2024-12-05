@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import Logo from "../assets/logo.jpg";
-import { FaShoppingCart, FaChartLine } from "react-icons/fa"; // Importa el ícono de estadísticas
+import { FaShoppingCart, FaChartLine } from "react-icons/fa";
 
 const Navbar = () => {
   const { cart } = useCart();
@@ -89,7 +89,6 @@ const Navbar = () => {
                 Registrarse
               </a>
             </li>
-            {/* Ícono para estadísticas */}
             <li className="nav-item">
               <button
                 className="btn btn-light position-relative"

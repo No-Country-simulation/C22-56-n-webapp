@@ -8,7 +8,6 @@ import logo from "../assets/logo.jpg";
 function Cart() {
   const { cart, setCart, products, setProducts } = useCart();
 
-  // Función para eliminar un producto del carrito
   const removeFromCart = (productToRemove) => {
     const updatedCart = cart.filter(
       (product) => product.id !== productToRemove.id
@@ -32,12 +31,10 @@ function Cart() {
     setCart(updatedCart);
   };
 
-  // Obtener la cantidad de un producto en el carrito
   const getProductCount = (productId) => {
     return cart.filter((product) => product.id === productId).length;
   };
 
-  // Obtener productos únicos
   const uniqueProducts = Array.from(
     cart
       .reduce((acc, product) => {
@@ -52,12 +49,10 @@ function Cart() {
       .values()
   );
 
-  // Calcular el total de la compra
   const totalPrice = uniqueProducts.reduce((sum, product) => {
     return sum + product.price * product.count;
   }, 0);
 
-  // Función para generar el PDF
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.setFont("helvetica", "normal");
@@ -108,7 +103,6 @@ function Cart() {
 
     doc.save("ticket_compra.pdf");
 
-    // Almacenar la compra en el historial
     const newOrder = {
       date: new Date(),
       items: uniqueProducts.map((product) => ({
@@ -123,7 +117,6 @@ function Cart() {
     existingHistory.push(newOrder);
     localStorage.setItem("orderHistory", JSON.stringify(existingHistory));
 
-    // Limpiar el carrito después de finalizar la compra
     setCart([]);
   };
 

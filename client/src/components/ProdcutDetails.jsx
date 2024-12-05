@@ -26,7 +26,21 @@ function ProductDetails() {
     fetchProduct();
   }, [productId]);
 
-  if (loading) return <p>Cargando...</p>;
+  if (loading) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
+        {/* Spinner de Bootstrap */}
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Cargando...</span>
+        </div>
+        <p className="ms-3">Cargando...</p>
+      </div>
+    );
+  }
+
   if (error) return <p>Error: {error}</p>;
 
   return (

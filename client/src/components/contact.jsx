@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Importa Link
+import { Link } from "react-router-dom";
 
 function Contacto() {
   const [formData, setFormData] = useState({
@@ -17,7 +17,7 @@ function Contacto() {
     e.preventDefault();
     console.log("Formulario enviado:", formData);
     alert("¡Gracias por contactarnos!");
-    setFormData({ nombre: "", correo: "", mensaje: "" }); // Limpia el formulario después de enviarlo
+    setFormData({ nombre: "", correo: "", mensaje: "" });
   };
 
   return (
