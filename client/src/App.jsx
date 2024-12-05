@@ -15,6 +15,7 @@ import History from "./components/OrderHistory";
 import Cart from "./components/Cart";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 axios.defaults.baseURL = "http://localhost:5000/api/";
 

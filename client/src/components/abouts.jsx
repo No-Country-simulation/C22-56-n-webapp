@@ -10,7 +10,7 @@ function About() {
         <div className="col-12 col-md-8 mx-auto">
           <div className="card shadow-lg border-light">
             <img
-              src="https://www.maitenalimentossaludables.com.ar/img/almacen01.jpg"
+              src="https://www.fennixdistribuidora.com.br/wp-content/uploads/2021/09/distribuidora-de-alimentos.png"
               className="card-img-top"
               alt="Imagen representativa de la empresa"
             />

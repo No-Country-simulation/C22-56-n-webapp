@@ -46,6 +46,7 @@ const Navbar = () => {
             Distri App
           </span>
         </a>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -55,8 +56,9 @@ const Navbar = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon me-3"></span>{" "}
         </button>
+
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
@@ -79,6 +81,7 @@ const Navbar = () => {
                 Contacto
               </a>
             </li>
+
             <li className="nav-item">
               <a className="btn btn-outline-primary me-2" href="/login">
                 Iniciar Sesión
@@ -89,9 +92,10 @@ const Navbar = () => {
                 Registrarse
               </a>
             </li>
+
             <li className="nav-item">
               <button
-                className="btn btn-light position-relative"
+                className="btn btn-light position-relative me-3"
                 onClick={goToHistory}
                 style={{ border: "none", background: "none" }}
               >
