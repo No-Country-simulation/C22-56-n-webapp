@@ -33,6 +33,11 @@ function OrderHistory() {
     XLSX.writeFile(wb, "historial_compras.xlsx");
   };
 
+  const clearOrderHistory = () => {
+    localStorage.removeItem("orderHistory");
+    setOrderHistory([]);
+  };
+
   const getChartData = () => {
     const salesByDate = orderHistory.reduce((acc, order) => {
       const date = new Date(order.date).toLocaleDateString();
@@ -99,6 +104,9 @@ function OrderHistory() {
           <div className="mt-4 text-center">
             <button className="btn btn-primary" onClick={generateExcel}>
               Generar Excel
+            </button>
+            <button className="btn btn-danger ms-2" onClick={clearOrderHistory}>
+              Eliminar Historial
             </button>
           </div>
 

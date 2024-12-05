@@ -73,15 +73,14 @@ function Cart() {
     doc.setFontSize(16);
     doc.text("TICKET DE COMPRA", 200, 30, { align: "right" });
 
-    let startY = 60; // Posición inicial para la tabla y las imágenes
-    const imageSize = 20; // Tamaño de la imagen (en mm)
+    let startY = 60;
+    const imageSize = 20;
 
     uniqueProducts.forEach((product, index) => {
-      const xImage = 10; // Coordenada X para la imagen
-      const yImage = startY + index * (imageSize + 10); // Coordenada Y para la imagen y el texto
+      const xImage = 10;
+      const yImage = startY + index * (imageSize + 10);
 
-      // Agregar la imagen redonda del producto al PDF
-      doc.setFillColor(255, 255, 255); // Fondo blanco
+      doc.setFillColor(255, 255, 255);
       doc.ellipse(
         xImage + imageSize / 2,
         yImage + imageSize / 2,
@@ -91,7 +90,6 @@ function Cart() {
       );
       doc.addImage(product.image, "PNG", xImage, yImage, imageSize, imageSize);
 
-      // Agregar texto con el nombre, cantidad y precio del producto
       doc.setFontSize(12);
       doc.text(product.name, xImage + imageSize + 5, yImage + 5);
       doc.text(
@@ -105,14 +103,12 @@ function Cart() {
         yImage + 15
       );
 
-      startY = yImage + imageSize + 10; // Actualizar la posición de Y para el próximo producto
+      startY = yImage + imageSize + 10;
     });
 
-    // Agregar el total de la compra
     doc.setFontSize(12);
     doc.text(`Total de la compra: $${totalPrice.toFixed(2)}`, 10, startY + 10);
 
-    // Agregar la fecha de la compra
     const pageHeight = doc.internal.pageSize.height;
     doc.setFontSize(10);
     doc.text(
@@ -121,7 +117,6 @@ function Cart() {
       pageHeight - 10
     );
 
-    // Guardar el PDF
     doc.save("ticket_compra.pdf");
 
     const newOrder = {
@@ -161,7 +156,7 @@ function Cart() {
                 <div className="card-body d-flex justify-content-between align-items-start">
                   <div className="d-flex align-items-center">
                     <img
-                      src={product.image} // Asegúrate de que `product.image` contenga la URL de la imagen
+                      src={product.image}
                       alt={product.name}
                       style={{
                         width: "50px",
