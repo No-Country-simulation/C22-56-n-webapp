@@ -17,6 +17,20 @@ const Home = () => {
     "https://www.circuitogastronomico.com/wp-content/uploads/2022/05/quilmes.jpg",
     "https://i.pinimg.com/736x/78/c8/4e/78c84e48158cbb1021db27567ff3b891.jpg",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiupAPXt32PvzKeY-dn1MUUk72mY8MMco-BA&s",
+    "https://media.licdn.com/dms/image/v2/D4D0BAQGhxw2CpMErng/company-logo_200_200/company-logo_200_200/0/1692192864709?e=2147483647&v=beta&t=RiuvfJ0SKMrKP7O1hPdIJQFEMeL2g2iOPXclO43xmt4",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyuXxvhsnncJ_j5qCr2vw5OlBhx86w--9pHQ&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMZrkZ8Oa0g3zDaaTcfRa7ua26Ti3MjoVE3w&s",
+    "https://pbs.twimg.com/profile_images/1290415520060018688/oYoZsmHe_400x400.jpg",
+    "https://mir-s3-cdn-cf.behance.net/projects/404/7308aa192368169.Y3JvcCwxODQxLDE0NDAsMjA5LDA.png",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB041M2I3GKtVMpSZ1UswPApWaTmgACu_K7g&s",
+    "https://i0.wp.com/www.sitemarca.com/wp-content/uploads/2020/04/Banner_300x250px-03.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAGkeb83Rc8yI1iYBnxwPAseYdmOdvyKWtPA&s",
+    "https://http2.mlstatic.com/D_NQ_NP_780168-MLA79602406701_092024-O.webp",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtHC2oeHw7ApPZvBrT74OXnBlnGUPuNQv9nw&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcFnz00qgb-Le7TY1TMLjSm93yUdwbrZVs5Q&s",
+    "https://http2.mlstatic.com/D_NQ_NP_827332-MLU74423526378_022024-O.webp",
+    "https://i.pinimg.com/736x/d3/ed/fa/d3edfaed52ae2d57a6a8a348279c0b42.jpg",
+    "https://http2.mlstatic.com/D_Q_NP_852529-MLU79065058441_092024-O.webp",
   ];
 
   return (
@@ -27,8 +41,8 @@ const Home = () => {
           alt="Logo"
           className="rounded-circle"
           style={{
-            width: "300px",
-            height: "300px",
+            width: "200px",
+            height: "200px",
             objectFit: "cover",
             objectPosition: "center",
           }}
