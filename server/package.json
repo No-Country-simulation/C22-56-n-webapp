@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "various",
   "license": "ISC",
@@ -24,6 +24,9 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "chai": "^5.1.2",
+    "mocha": "^11.0.1",
+    "nodemon": "^3.1.7",
+    "sinon": "^19.0.2"
   }
 }

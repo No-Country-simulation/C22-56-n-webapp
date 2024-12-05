@@ -1,43 +1,38 @@
 import express from 'express'
 import mainRoutes from './routes/mainRoutes.js';
 import connectMongoDB from './config/database.js';
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import morgan from 'morgan';
+import 'dotenv/config'
+
 
 
 //Conectar DB
 
 const app = express();
+app.use(express.json())
 
-const PORT = process.env.PORT || 5000
 
 // conexion a la base de datos
 connectMongoDB();
 
+//Configuracion del cors
+const allow_origin = process.env.ALLOW_SITE_URL
+const options = {
+    origin: allow_origin,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  
+    allowedHeaders: ['Content-Type', 'Authorization'], 
+}
 
-//Principal
-app.use('/', (req, res) => {
+app.use(cors(options))
+
+//Ruta Principal
+app.get('/', (req, res) => {
     res.send('Welcome to TEAM C22-56-N-WEBAPP API')
 })
 
 //rutas
 app.use('/api', mainRoutes)
 
-//Middlewares
-app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
-app.use(bodyParser.json({ limit: "50mb" }));
-app.use(cookieParser());
-app.use(cors());
-app.use(express.json());
-app.use(morgan("dev"));
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
 
 // Manejador de errores globales
 app.use((err, req, res, next) => {
@@ -48,6 +43,7 @@ app.use((err, req, res, next) => {
 });
 
 //Correr en el puerto
+const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto: ${PORT}`)
 })

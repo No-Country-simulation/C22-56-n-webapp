@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-import  hash from "bcryptjs";
-
+import bcrypt from "bcryptjs/dist/bcrypt.js";
 const UsuarioSchema = new mongoose.Schema({
     nombres:{
         type : String,
@@ -32,14 +31,14 @@ const UsuarioSchema = new mongoose.Schema({
 })
 
 //Middleware para cambio de contraseña
-UsuarioSchema.pre('save', async (next) => {
+UsuarioSchema.pre('save', async function(next) {
     if(!this.isModified('password')) return next;
     
-    this.password = await hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
 })
 
 //Comparar contraseñas para Auth
-UsuarioSchema.methods.comparePassword = async (contrasenia) => {
+UsuarioSchema.methods.comparePassword = async function(contrasenia){
     return bcrypt.compare(contrasenia, this.password)
 } 
 

@@ -1,4 +1,4 @@
-import OrderModel from "../models/PedidoModel";
+import OrderModel from "../models/PedidoModel.js";
 
 export const createOrder = async (req, res) => {
     try {
@@ -23,12 +23,12 @@ export const createOrder = async (req, res) => {
 };
 
 
-export const getUserOrdersById = async (req, res) => {
+export const getAllOrders = async (req, res) => {
   try {
     const userId = req.params;
 
     if(!userId){
-        return res.status(404).json({message: `No se encontro el usuario con el ID ${req.params.id}`})
+        return res.status(404).json({message: `No se encontro el producto con el ID ${req.params.id}`})
     }
 
     const orders = await OrderModel.find({ usuarioId }).populate('Productos.productoId');
@@ -73,7 +73,7 @@ export const updateOrder = async (req, res) => {
   }
 };
 
-exports.deleteOrder = async (req, res) => {
+export const deleteOrder = async (req, res) => {
   try {
     const { id } = req.params;
 
