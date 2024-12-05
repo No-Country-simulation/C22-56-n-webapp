@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import About from "./components/abouts";
 import Detail from "./components/ProdcutDetails";
 import { CartProvider } from "./context/CartContext";
+import History from "./components/OrderHistory";
 import Cart from "./components/Cart";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -32,6 +33,7 @@ const App = () => {
               <Route path="/about" element={<About />} />
               <Route path="/detail/:productId" element={<Detail />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/history" element={<History />} />
             </Routes>
           </div>
           <Footer />

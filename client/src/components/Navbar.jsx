@@ -1,16 +1,19 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../context/CartContext"; // Importa el hook del contexto de carrito
+import { useCart } from "../context/CartContext";
 import Logo from "../assets/logo.jpg";
-import { FaShoppingCart } from "react-icons/fa"; // Icono de carrito de compras
+import { FaShoppingCart, FaChartLine } from "react-icons/fa"; // Importa el ícono de estadísticas
 
 const Navbar = () => {
-  const { cart } = useCart(); // Usa el hook para obtener el estado del carrito
+  const { cart } = useCart();
   const navigate = useNavigate();
 
-  // Función para redirigir a la página de carrito
   const goToCart = () => {
     navigate("/cart");
+  };
+
+  const goToHistory = () => {
+    navigate("/history");
   };
 
   return (
@@ -86,7 +89,17 @@ const Navbar = () => {
                 Registrarse
               </a>
             </li>
-            {/* Ícono de carrito de compras */}
+            {/* Ícono para estadísticas */}
+            <li className="nav-item">
+              <button
+                className="btn btn-light position-relative"
+                onClick={goToHistory}
+                style={{ border: "none", background: "none" }}
+              >
+                <FaChartLine size={24} color="#007bff" />
+              </button>
+            </li>
+
             <li className="nav-item">
               <button
                 className="btn btn-light position-relative"
