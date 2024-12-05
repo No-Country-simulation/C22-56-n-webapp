@@ -137,69 +137,74 @@ function Cart() {
   };
 
   return (
-    <div>
-      <h2 className="text-center mb-4">Carrito de Compras</h2>
-      {uniqueProducts.length === 0 ? (
-        <p className="text-center text-muted">
-          No hay productos en el carrito.
-        </p>
-      ) : (
-        <div className="list-group">
-          {uniqueProducts.map((product) => {
-            const totalPriceProduct = product.price * product.count;
-            return (
-              <div
-                key={product.id}
-                className="card mb-3 shadow-sm"
-                style={{ borderRadius: "0.5rem" }}
-              >
-                <div className="card-body d-flex justify-content-between align-items-start">
-                  <div className="d-flex align-items-center">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "50%",
-                        marginRight: "15px",
-                      }}
-                    />
-                    <div>
-                      <h5 className="card-title mb-1">{product.name}</h5>
-                      <p className="card-text mb-2">Precio: ${product.price}</p>
-                      <p className="card-text mb-2">
-                        Descripción: {product.description}
-                      </p>
-                      <small className="text-muted">
-                        Cantidad: {product.count}
-                      </small>
-                      <h6 className="mt-2 text-success">
-                        Total: ${totalPriceProduct.toFixed(2)}
-                      </h6>
+    <div className="d-flex flex-column min-vh-100">
+      <div className="flex-grow-1">
+        <h2 className="text-center mb-4">Carrito de Compras</h2>
+        {uniqueProducts.length === 0 ? (
+          <p className="text-center text-muted">
+            No hay productos en el carrito.
+          </p>
+        ) : (
+          <div className="list-group">
+            {uniqueProducts.map((product) => {
+              const totalPriceProduct = product.price * product.count;
+              return (
+                <div
+                  key={product.id}
+                  className="card mb-3 shadow-sm"
+                  style={{ borderRadius: "0.5rem" }}
+                >
+                  <div className="card-body d-flex justify-content-between align-items-start">
+                    <div className="d-flex align-items-center">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "50%",
+                          marginRight: "15px",
+                        }}
+                      />
+                      <div>
+                        <h5 className="card-title mb-1">{product.name}</h5>
+                        <p className="card-text mb-2">
+                          Precio: ${product.price}
+                        </p>
+                        <p className="card-text mb-2">
+                          Descripción: {product.description}
+                        </p>
+                        <small className="text-muted">
+                          Cantidad: {product.count}
+                        </small>
+                        <h6 className="mt-2 text-success">
+                          Total: ${totalPriceProduct.toFixed(2)}
+                        </h6>
+                      </div>
                     </div>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => removeFromCart(product)}
+                      title="Eliminar producto"
+                    >
+                      <FaTrashAlt />
+                    </button>
                   </div>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => removeFromCart(product)}
-                    title="Eliminar producto"
-                  >
-                    <FaTrashAlt />
-                  </button>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-      {uniqueProducts.length > 0 && (
-        <div className="mt-4 text-center">
-          <h4>Total de la compra: ${totalPrice.toFixed(2)}</h4>
-          <button className="btn btn-primary mt-3" onClick={generatePDF}>
-            Finalizar compra
-          </button>
-        </div>
-      )}
+              );
+            })}
+          </div>
+        )}
+        {uniqueProducts.length > 0 && (
+          <div className="mt-4 text-center">
+            <h4>Total de la compra: ${totalPrice.toFixed(2)}</h4>
+            <button className="btn btn-primary mt-3" onClick={generatePDF}>
+              Finalizar compra
+            </button>
+          </div>
+        )}
+      </div>
+      <footer className="text-center mt-4 py-3"></footer>
     </div>
   );
 }

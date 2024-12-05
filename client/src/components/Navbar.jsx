@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import Logo from "../assets/logo.jpg";
 import { FaShoppingCart, FaChartLine } from "react-icons/fa";
-import Login from "../components/Login";
-import Register from "../components/Register";
-import Contact from "../components/Contact";
+import LoginModal from "../modal/LoginModal";
+import RegisterModal from "../modal/RegisterModal";
+import ContactModal from "../modal/ContactModal";
 
 const Navbar = () => {
   const { cart } = useCart();
@@ -144,66 +144,9 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-
-      {showLoginModal && (
-        <div className="modal d-block" tabIndex="-1">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Iniciar Sesión</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={closeModal}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <Login />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showRegisterModal && (
-        <div className="modal d-block" tabIndex="-1">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Registrarse</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={closeModal}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <Register />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showContactModal && (
-        <div className="modal d-block" tabIndex="-1">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Contacto</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={closeModal}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <Contact />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <LoginModal open={showLoginModal} onClose={closeModal} />
+      <RegisterModal open={showRegisterModal} onClose={closeModal} />
+      <ContactModal open={showContactModal} onClose={closeModal} />
     </>
   );
 };

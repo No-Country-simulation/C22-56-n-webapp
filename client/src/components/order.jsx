@@ -23,13 +23,16 @@ const Order = ({ products, setProducts }) => {
   };
 
   return (
-    <div className="mb-3">
-      <label htmlFor="orderSelect" className="form-label">
+    <div className="mb-4">
+      <label
+        htmlFor="orderSelect"
+        className="form-label fs-5 fw-bold text-dark"
+      >
         Ordenar por:
       </label>
       <select
         id="orderSelect"
-        className="form-select"
+        className="form-select shadow-sm rounded-3 border-primary"
         onChange={handleOrderChange}
       >
         <option value="priceAsc">Menor a mayor</option>

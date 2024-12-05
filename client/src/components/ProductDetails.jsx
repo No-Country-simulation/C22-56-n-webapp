@@ -39,35 +39,47 @@ function ProductDetails() {
   if (error) return <p className="text-danger">Error: {error}</p>;
 
   return (
-    <div>
-      {producto ? (
-        <div className="card mx-auto" style={{ maxWidth: "600px" }}>
-          <div className="card-body text-center">
-            <img
-              src={producto.image}
-              alt={producto.name}
-              className="rounded-circle border border-3 border-secondary mb-3"
-              style={{
-                objectFit: "cover",
-                height: "200px",
-                width: "200px",
-              }}
-            />
-            <h5 className="card-title">{producto.name}</h5>
-            <p className="card-text">
-              <strong>Descripción:</strong> {producto.description}
-            </p>
-            <p className="card-text">
-              <strong>Precio:</strong> ${producto.price}
-            </p>
-            <p className="card-text">
-              <strong>Cantidad disponible:</strong> {producto.stock}
-            </p>
+    <div
+      className="d-flex flex-column min-vh-100"
+      style={{ marginTop: "20px" }}
+    >
+      <div className="flex-grow-1">
+        {producto ? (
+          <div
+            className="card mx-auto"
+            style={{ maxWidth: "600px", marginTop: "40px" }}
+          >
+            <div className="card-body text-center">
+              <img
+                src={producto.image}
+                alt={producto.name}
+                className="rounded-circle border border-3 border-secondary mb-3"
+                style={{
+                  objectFit: "cover",
+                  height: "200px",
+                  width: "200px",
+                }}
+              />
+              <h5 className="card-title">{producto.name}</h5>
+              <p className="card-text">
+                <strong>Descripción:</strong> {producto.description}
+              </p>
+              <p className="card-text">
+                <strong>Precio:</strong> ${producto.price}
+              </p>
+              <p className="card-text">
+                <strong>Cantidad disponible:</strong> {producto.stock}
+              </p>
+            </div>
           </div>
-        </div>
-      ) : (
-        <p className="text-center">Producto no encontrado.</p>
-      )}
+        ) : (
+          <p className="text-center">Producto no encontrado.</p>
+        )}
+      </div>
+      <footer
+        className="text-center mt-4 py-3"
+        style={{ marginTop: "20px" }}
+      ></footer>
     </div>
   );
 }
