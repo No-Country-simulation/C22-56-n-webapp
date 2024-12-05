@@ -1,9 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Contact from "./components/Contact";
 import ProductList from "./components/ProductList";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -23,28 +20,17 @@ const App = () => {
   return (
     <CartProvider>
       <ProductsProvider>
-        {" "}
         <Router>
-          <div className="d-flex flex-column min-vh-100">
-            <Navbar />
-            <div className="flex-grow-1">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/product" element={<ProductList />} />{" "}
-                <Route path="/about" element={<About />} />
-                <Route
-                  path="/detail/:productId"
-                  element={<ProductDetails />}
-                />{" "}
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/history" element={<History />} />
-              </Routes>
-            </div>
-            <Footer />
-          </div>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product" element={<ProductList />} />{" "}
+            <Route path="/about" element={<About />} />
+            <Route path="/detail/:productId" element={<ProductDetails />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/history" element={<History />} />
+          </Routes>
+          <Footer />
         </Router>
       </ProductsProvider>
     </CartProvider>

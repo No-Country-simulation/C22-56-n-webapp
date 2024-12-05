@@ -36,7 +36,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        {/* Sección Derecha */}
+
         <div className="text-end">
           <p>Síguenos en:</p>
           <ul className="list-inline">

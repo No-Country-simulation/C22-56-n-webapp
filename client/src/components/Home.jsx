@@ -30,24 +30,27 @@ const Home = () => {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcFnz00qgb-Le7TY1TMLjSm93yUdwbrZVs5Q&s",
     "https://http2.mlstatic.com/D_NQ_NP_827332-MLU74423526378_022024-O.webp",
     "https://i.pinimg.com/736x/d3/ed/fa/d3edfaed52ae2d57a6a8a348279c0b42.jpg",
-    "https://http2.mlstatic.com/D_Q_NP_852529-MLU79065058441_092024-O.webp",
   ];
 
   return (
-    <div className="container text-center pt-5">
-      <div className="mb-4" style={{ position: "relative" }}>
-        <img
-          src={Logo}
-          alt="Logo"
-          className="rounded-circle"
-          style={{
-            width: "250px",
-            height: "250px",
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
-        />
-      </div>
+    <div
+      className="d-flex justify-content-center align-items-center"
+      style={{
+        height: "125vh",
+        flexDirection: "column",
+      }}
+    >
+      <img
+        src={Logo}
+        alt="Logo"
+        className="rounded-circle"
+        style={{
+          width: "250px",
+          height: "250px",
+          objectFit: "cover",
+          objectPosition: "center",
+        }}
+      />
 
       <div className="d-flex flex-wrap justify-content-center mt-5 pt-5">
         {productImages.map((imageUrl, index) => (
@@ -67,7 +70,7 @@ const Home = () => {
               style={{
                 width: "100%",
                 height: "100%",
-                objectFit: "center",
+                objectFit: "cover",
                 objectPosition: "center",
               }}
             />

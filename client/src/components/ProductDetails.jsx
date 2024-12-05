@@ -10,7 +10,6 @@ function ProductDetails() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Check if the product data is already in context
     const foundProduct = products.find(
       (product) => product.id === parseInt(productId, 10)
     );
@@ -40,10 +39,9 @@ function ProductDetails() {
   if (error) return <p className="text-danger">Error: {error}</p>;
 
   return (
-    <div className="container mt-5">
+    <div>
       {producto ? (
         <div className="card mx-auto" style={{ maxWidth: "600px" }}>
-          {/* Card body with image and product details */}
           <div className="card-body text-center">
             <img
               src={producto.image}

@@ -28,7 +28,7 @@ const ProductList = () => {
   };
 
   return (
-    <div className="container mt-4">
+    <div>
       <h2 className="text-center mb-4">Lista de Productos</h2>
       <div className="row">
         <div className="col-md-3 mb-4">

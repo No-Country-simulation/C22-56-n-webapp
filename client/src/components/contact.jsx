@@ -21,7 +21,7 @@ function Contacto() {
   };
 
   return (
-    <div className="container mt-5">
+    <div>
       <h2 className="text-center mb-4">Contáctanos</h2>
       <form onSubmit={handleSubmit} className="card p-4 shadow">
         <div className="mb-3">
@@ -72,9 +72,6 @@ function Contacto() {
         <button type="submit" className="btn btn-primary w-100 mb-3">
           Enviar mensaje
         </button>
-        <Link to="/" className="btn btn-secondary w-100">
-          Volver a Inicio
-        </Link>
       </form>
     </div>
   );

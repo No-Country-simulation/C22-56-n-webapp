@@ -66,7 +66,7 @@ function OrderHistory() {
   };
 
   return (
-    <div className="container mt-4">
+    <div>
       <h2 className="text-center mb-4">Historial de Compras</h2>
       {orderHistory.length === 0 ? (
         <p className="text-center text-muted">No hay historial de compras.</p>

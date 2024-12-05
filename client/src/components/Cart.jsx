@@ -137,7 +137,7 @@ function Cart() {
   };
 
   return (
-    <div className="container mt-4">
+    <div>
       <h2 className="text-center mb-4">Carrito de Compras</h2>
       {uniqueProducts.length === 0 ? (
         <p className="text-center text-muted">
