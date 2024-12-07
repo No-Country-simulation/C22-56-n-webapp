@@ -11,6 +11,7 @@ import helmet from "helmet"; // Protección de seguridad adicional
 dotenv.config();
 
 const app = express();
+app.use(express.json());
 
 // Establecer el puerto de manera flexible
 const PORT = process.env.PORT || 5000;
