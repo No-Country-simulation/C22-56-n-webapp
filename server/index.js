@@ -13,6 +13,7 @@ const Contacto = require("./models/Contacto");
 dotenv.config();
 
 const app = express();
+
 app.use(bodyParser.json());
 
 sequelize

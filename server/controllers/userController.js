@@ -1,8 +1,4 @@
 const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
-// Login
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -13,16 +9,7 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Usuario no encontrado" });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Contraseña incorrecta" });
-    }
-
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-
-    res.json({ token });
+    res.json({ message: "Login exitoso", user });
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -32,8 +19,6 @@ const login = async (req, res) => {
   }
 };
 
-// Registro de un nuevo usuario
-// Registro de un nuevo usuario
 const register = async (req, res) => {
   const { email, password, name, role } = req.body;
 
@@ -43,10 +28,9 @@ const register = async (req, res) => {
       return res.status(400).json({ message: "El correo ya está registrado" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
       email,
-      password: hashedPassword,
+      password,
       name,
       role,
     });
@@ -61,8 +45,6 @@ const register = async (req, res) => {
   }
 };
 
-// Actualizar datos del usuario
-// Actualizar datos del usuario
 const updateUser = async (req, res) => {
   const { id } = req.params;
   const { name, email, password, role } = req.body;
@@ -74,11 +56,7 @@ const updateUser = async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      user.password = hashedPassword;
-    }
-
+    if (password) user.password = password;
     if (name) user.name = name;
     if (email) user.email = email;
     if (role) user.role = role;
@@ -95,7 +73,6 @@ const updateUser = async (req, res) => {
   }
 };
 
-// Eliminar un usuario
 const deleteUser = async (req, res) => {
   const { id } = req.params;
 
@@ -117,7 +94,6 @@ const deleteUser = async (req, res) => {
   }
 };
 
-// Obtener todos los usuarios
 const getUsers = async (req, res) => {
   try {
     const users = await User.findAll();
