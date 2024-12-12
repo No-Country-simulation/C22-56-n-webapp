@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import LoginForm from "./LoginForm";
 import ErrorMessage from "./ErrorMessage";
+import { useUser } from "../../context/UserContext";
 
 const Login = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const { setUser } = useUser();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,7 +22,11 @@ const Login = ({ onClose }) => {
           password,
         });
         console.log("Login exitoso", response.data);
-        onClose(); // Close the modal on successful login
+
+        setUser(response.data.user);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+
+        onClose();
       } catch (error) {
         if (error.response) {
           setErrorMessage(error.response.data.message);

@@ -6,11 +6,12 @@ import Navbar from "./components/navBar/Navbar";
 import Footer from "./components/footer/Footer";
 import About from "./components/abouts/Abouts";
 import ProductDetails from "./components/productDetails/ProductDetails";
+import Cart from "./components/cart/Cart";
+import History from "./components/orderHistory/OrderHistory";
+import CrearProducto from "./components/productList/ProductosCrud";
 import { CartProvider } from "./context/CartContext";
 import { ProductsProvider } from "./context/ProductsContext";
 import { UserProvider } from "./context/UserContext";
-import History from "./components/orderHistory/OrderHistory";
-import Cart from "./components/cart/Cart";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -31,6 +32,8 @@ const App = () => {
               <Route path="/detail/:productId" element={<ProductDetails />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/history" element={<History />} />
+              <Route path="/crearproducto" element={<CrearProducto />} />{" "}
+              {/* Add the new route */}
             </Routes>
             <Footer />
           </Router>

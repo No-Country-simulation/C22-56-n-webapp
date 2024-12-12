@@ -1,6 +1,7 @@
 import React from "react";
 import { FaShoppingCart, FaChartLine } from "react-icons/fa";
 import CartBadge from "./CartBadge";
+import { useUser } from "../../context/UserContext";
 
 const NavbarActions = ({
   goToCart,
@@ -10,24 +11,37 @@ const NavbarActions = ({
   setShowRegisterModal,
   setShowContactModal,
 }) => {
+  const { user, setUser } = useUser();
+
+  const handleLoginLogout = () => {
+    if (user) {
+      setUser(null);
+      localStorage.removeItem("user");
+    } else {
+      setShowLoginModal(true);
+    }
+  };
+
   return (
     <ul className="navbar-nav ms-auto">
       <li className="nav-item me-3">
         <button
-          className="btn btn-outline-primary me-2"
-          onClick={() => setShowLoginModal(true)}
+          className={`btn ${user ? "btn-danger" : "btn-outline-primary"} me-2`}
+          onClick={handleLoginLogout}
         >
-          Iniciar Sesión
+          {user ? "Cerrar Sesión" : "Iniciar Sesión"}
         </button>
       </li>
-      <li className="nav-item me-3">
-        <button
-          className="btn btn-primary me-2"
-          onClick={() => setShowRegisterModal(true)}
-        >
-          Registrarse
-        </button>
-      </li>
+      {!user && (
+        <li className="nav-item me-3">
+          <button
+            className="btn btn-primary me-2"
+            onClick={() => setShowRegisterModal(true)}
+          >
+            Registrarse
+          </button>
+        </li>
+      )}
       <li className="nav-item me-3">
         <button
           className="btn btn-secondary"
