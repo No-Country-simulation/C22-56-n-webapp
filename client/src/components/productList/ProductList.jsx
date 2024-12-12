@@ -59,19 +59,19 @@ const ProductList = () => {
       className="d-flex flex-column min-vh-100"
       style={{ marginTop: "40px" }}
     >
+      <button
+        className="btn btn-primary mb-4"
+        onClick={() => setShowCrud(!showCrud)}
+      >
+        {showCrud ? "Crear Productos" : "Crear Productos"}
+      </button>
+      {showCrud && <ProductosCrud />}
       <div className="flex-grow-1">
         <h2 className="text-center mb-4">Lista de Productos</h2>
         <SearchSection
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
         />
-        <button
-          className="btn btn-primary mb-4"
-          onClick={() => setShowCrud(!showCrud)}
-        >
-          {showCrud ? "Cerrar Productos" : "Abrir Productos"}
-        </button>
-        {showCrud && <ProductosCrud />}
         <div className="row">
           <div className="col-md-3 mb-4">
             <Order products={products} setProducts={setProducts} />
