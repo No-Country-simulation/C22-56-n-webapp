@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     console.log("Tablas sincronizadas");
   })

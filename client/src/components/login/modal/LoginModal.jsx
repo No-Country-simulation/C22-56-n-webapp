@@ -13,7 +13,7 @@ const LoginModal = ({ open, onClose }) => {
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>Iniciar Sesión</DialogTitle>
       <DialogContent>
-        <Login />
+        <Login onClose={onClose} />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">

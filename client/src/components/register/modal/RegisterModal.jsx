@@ -13,7 +13,7 @@ const RegisterModal = ({ open, onClose }) => {
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
       <DialogTitle>Registrarse</DialogTitle>
       <DialogContent>
-        <Register />
+        <Register onClose={onClose} />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">

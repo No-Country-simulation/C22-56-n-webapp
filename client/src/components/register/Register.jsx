@@ -3,7 +3,7 @@ import axios from "axios";
 import FormInput from "./FormInput";
 import ErrorMessage from "./ErrorMessage";
 
-const Register = () => {
+const Register = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -38,6 +38,7 @@ const Register = () => {
     try {
       const response = await axios.post("/register", user);
       console.log("Usuario registrado con éxito:", response.data);
+      onClose(); // Close the modal on successful registration
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
       setErrorMessage("Error al registrar el usuario. Inténtalo nuevamente.");
