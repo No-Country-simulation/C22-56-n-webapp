@@ -8,6 +8,7 @@ import About from "./components/abouts/Abouts";
 import ProductDetails from "./components/productDetails/ProductDetails";
 import { CartProvider } from "./context/CartContext";
 import { ProductsProvider } from "./context/ProductsContext";
+import { UserProvider } from "./context/UserContext";
 import History from "./components/orderHistory/OrderHistory";
 import Cart from "./components/cart/Cart";
 import axios from "axios";
@@ -18,22 +19,24 @@ axios.defaults.baseURL = "http://localhost:5000/api";
 
 const App = () => {
   return (
-    <CartProvider>
-      <ProductsProvider>
-        <Router>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/product" element={<ProductList />} />{" "}
-            <Route path="/about" element={<About />} />
-            <Route path="/detail/:productId" element={<ProductDetails />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/history" element={<History />} />
-          </Routes>
-          <Footer />
-        </Router>
-      </ProductsProvider>
-    </CartProvider>
+    <UserProvider>
+      <CartProvider>
+        <ProductsProvider>
+          <Router>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/product" element={<ProductList />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/detail/:productId" element={<ProductDetails />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/history" element={<History />} />
+            </Routes>
+            <Footer />
+          </Router>
+        </ProductsProvider>
+      </CartProvider>
+    </UserProvider>
   );
 };
 

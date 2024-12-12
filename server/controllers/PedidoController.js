@@ -1,13 +1,15 @@
 // controllers/pedido.js
-const Pedido = require('../models/Pedido');
-const ProductoPedido = require('../models/ProductoPedido');
-const Producto = require('../models/Producto');
+const Pedido = require("../models/Pedido");
+const ProductoPedido = require("../models/ProductoPedido");
+const Producto = require("../models/Producto");
 
 const createPedido = async (req, res) => {
   const { userId, productos, estado, montoTotal } = req.body;
 
   if (!userId || !productos || !estado || !montoTotal) {
-    return res.status(400).json({ error: 'Faltan datos requeridos en el cuerpo de la solicitud' });
+    return res
+      .status(400)
+      .json({ error: "Faltan datos requeridos en el cuerpo de la solicitud" });
   }
   try {
     // Crear el pedido
@@ -19,18 +21,20 @@ const createPedido = async (req, res) => {
     });
 
     // Crear los productos del pedido
-    await Promise.all(productos.map(async (producto) => {
-      await ProductoPedido.create({
-        pedidoId: nuevoPedido.id,
-        productoId: producto.productoId,
-        cantidad: producto.cantidad,
-        precio: producto.precio,
-      });
-    }));
+    await Promise.all(
+      productos.map(async (producto) => {
+        await ProductoPedido.create({
+          pedidoId: nuevoPedido.id,
+          productoId: producto.productoId,
+          cantidad: producto.cantidad,
+          precio: producto.precio,
+        });
+      })
+    );
 
     res.status(201).json(nuevoPedido);
   } catch (error) {
-    res.status(500).json({ error: 'Error al crear el pedido'  , error });
+    res.status(500).json({ error: "Error al crear el pedido", error });
   }
 };
 
@@ -48,10 +52,10 @@ const getPedidoById = async (req, res) => {
     if (pedido) {
       res.json(pedido);
     } else {
-      res.status(404).json({ error: 'Pedido no encontrado' });
+      res.status(404).json({ error: "Pedido no encontrado" });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener el pedido' });
+    res.status(500).json({ error: "Error al obtener el pedido" });
   }
 };
 
@@ -67,7 +71,7 @@ const getPedidos = async (req, res) => {
     });
     res.json(pedidos);
   } catch (error) {
-    res.status(500).json({ error: 'Error al listar los pedidos' });
+    res.status(500).json({ error: "Error al listar los pedidos" });
   }
 };
 

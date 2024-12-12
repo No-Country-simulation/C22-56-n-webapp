@@ -49,30 +49,29 @@ Contacto.belongsTo(User, {
 // Relación entre User y Pedido
 User.hasMany(Pedido, {
   foreignKey: "userId",
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 
 Pedido.belongsTo(User, {
-  foreignKey: "userId"
+  foreignKey: "userId",
 });
 
 // Relación entre Pedido y ProductoPedido
 Pedido.hasMany(ProductoPedido, {
   foreignKey: "pedidoId",
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 ProductoPedido.belongsTo(Pedido, {
-  foreignKey: "pedidoId"
+  foreignKey: "pedidoId",
 });
 
 // Relación entre Producto y ProductoPedido
 Producto.hasMany(ProductoPedido, {
-  foreignKey: "productoId"
+  foreignKey: "productoId",
 });
 ProductoPedido.belongsTo(Producto, {
-  foreignKey: "productoId"
+  foreignKey: "productoId",
 });
-
 
 app.use("/api", userRoutes);
 app.use("/api", contactoRoutes);
