@@ -29,7 +29,7 @@ sequelize
 
 User.hasMany(Producto, {
   foreignKey: "userId",
-  onDelete: "CASCADE",
+  onDelete: "SET NULL",
 });
 Producto.belongsTo(User, {
   foreignKey: "userId",

@@ -71,7 +71,7 @@ function OrderHistory() {
       style={{ marginTop: "40px" }}
     >
       <div className="flex-grow-1">
-        <h2 className="text-center mb-4">Historial de Compras</h2>
+        <h2 className="text-center mb-4">Historial de Ventas</h2>
         {orderHistory.length === 0 ? (
           <p className="text-center text-muted">No hay historial de compras.</p>
         ) : (

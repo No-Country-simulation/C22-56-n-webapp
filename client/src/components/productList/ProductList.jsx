@@ -7,6 +7,7 @@ import ProductCardsSection from "./ProductCardSection.jsx";
 import PaginationSection from "./PaginationSection.jsx";
 import Order from "../order/Order.jsx";
 import NoProductsFound from "./NoProductsFound.jsx";
+import ProductosCrud from "./ProductosCrud.jsx";
 
 const ProductList = () => {
   const { products, setProducts } = useProducts();
@@ -16,6 +17,7 @@ const ProductList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+  const [showCrud, setShowCrud] = useState(false);
 
   const handleProductClick = (productId) => {
     navigate(`/detail/${productId}`);
@@ -59,28 +61,26 @@ const ProductList = () => {
     >
       <div className="flex-grow-1">
         <h2 className="text-center mb-4">Lista de Productos</h2>
-
-        {/* Search Section */}
         <SearchSection
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
         />
-
+        <button
+          className="btn btn-primary mb-4"
+          onClick={() => setShowCrud(!showCrud)}
+        >
+          {showCrud ? "Cerrar Productos" : "Abrir Productos"}
+        </button>
+        {showCrud && <ProductosCrud />}
         <div className="row">
-          {/* Order Section */}
           <div className="col-md-3 mb-4">
-            <Order products={products} setProducts={setProducts} />{" "}
-            {/* Añadir el componente Order */}
+            <Order products={products} setProducts={setProducts} />
           </div>
-
-          {/* Product Cards Section */}
           <ProductCardsSection
             currentProducts={currentProducts}
             handleProductClick={handleProductClick}
             handleBuyClick={handleBuyClick}
           />
-
-          {/* Pagination Section */}
           <PaginationSection
             currentPage={currentPage}
             totalPages={totalPages}
