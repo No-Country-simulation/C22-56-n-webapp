@@ -14,6 +14,14 @@ const Contacto = sequelize.define("Contacto", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: "Users",
+      key: "id",
+    },
+  },
 });
 
 module.exports = Contacto;

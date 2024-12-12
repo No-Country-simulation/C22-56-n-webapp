@@ -1,17 +1,44 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
-const { connectDB } = require("./config/db");
+const { sequelize } = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const contactoRoutes = require("./routes/contactoRoutes");
 const productoRoutes = require("./routes/productoRoutes");
+
+const User = require("./models/User");
+const Producto = require("./models/Producto");
+const Contacto = require("./models/Contacto");
 
 dotenv.config();
 
 const app = express();
 app.use(bodyParser.json());
 
-connectDB();
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("Tablas sincronizadas");
+  })
+  .catch((error) => {
+    console.error("Error al sincronizar las tablas:", error);
+  });
+
+User.hasMany(Producto, {
+  foreignKey: "userId",
+  onDelete: "CASCADE",
+});
+Producto.belongsTo(User, {
+  foreignKey: "userId",
+});
+
+User.hasMany(Contacto, {
+  foreignKey: "userId",
+  onDelete: "SET NULL",
+});
+Contacto.belongsTo(User, {
+  foreignKey: "userId",
+});
 
 app.use("/api", userRoutes);
 app.use("/api", contactoRoutes);
