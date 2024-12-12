@@ -1,4 +1,5 @@
 const User = require("../models/User");
+
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -20,7 +21,7 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { email, password, name, role } = req.body;
+  const { email, password, name, address, dni, role } = req.body;
 
   try {
     const userExist = await User.findOne({ where: { email } });
@@ -32,6 +33,8 @@ const register = async (req, res) => {
       email,
       password,
       name,
+      address,
+      dni,
       role,
     });
 
@@ -47,7 +50,7 @@ const register = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { name, email, password, role } = req.body;
+  const { name, email, password, address, dni, role } = req.body;
 
   try {
     const user = await User.findByPk(id);
@@ -59,6 +62,8 @@ const updateUser = async (req, res) => {
     if (password) user.password = password;
     if (name) user.name = name;
     if (email) user.email = email;
+    if (address) user.address = address;
+    if (dni) user.dni = dni;
     if (role) user.role = role;
 
     await user.save();

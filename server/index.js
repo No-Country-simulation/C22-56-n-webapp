@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const dotenv = require("dotenv");
 const { sequelize } = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
@@ -15,9 +16,10 @@ dotenv.config();
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     console.log("Tablas sincronizadas");
   })
