@@ -37,7 +37,7 @@ const Home = () => {
     <div
       className="d-flex justify-content-center align-items-center"
       style={{
-        height: "100vh",
+        height: "110vh",
         flexDirection: "column",
         overflowY: "auto",
       }}
