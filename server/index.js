@@ -6,10 +6,13 @@ const { sequelize } = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const contactoRoutes = require("./routes/contactoRoutes");
 const productoRoutes = require("./routes/productoRoutes");
+const pedidoRoutes = require("./routes/pedidoRoutes");
 
 const User = require("./models/User");
 const Producto = require("./models/Producto");
 const Contacto = require("./models/Contacto");
+const Pedido = require("./models/Pedido");
+const ProductoPedido = require("./models/ProductoPedido");
 
 dotenv.config();
 
@@ -43,9 +46,38 @@ Contacto.belongsTo(User, {
   foreignKey: "userId",
 });
 
+// Relación entre User y Pedido
+User.hasMany(Pedido, {
+  foreignKey: "userId",
+  onDelete: "CASCADE"
+});
+
+Pedido.belongsTo(User, {
+  foreignKey: "userId"
+});
+
+// Relación entre Pedido y ProductoPedido
+Pedido.hasMany(ProductoPedido, {
+  foreignKey: "pedidoId",
+  onDelete: "CASCADE"
+});
+ProductoPedido.belongsTo(Pedido, {
+  foreignKey: "pedidoId"
+});
+
+// Relación entre Producto y ProductoPedido
+Producto.hasMany(ProductoPedido, {
+  foreignKey: "productoId"
+});
+ProductoPedido.belongsTo(Producto, {
+  foreignKey: "productoId"
+});
+
+
 app.use("/api", userRoutes);
 app.use("/api", contactoRoutes);
 app.use("/api", productoRoutes);
+app.use("/api", pedidoRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
