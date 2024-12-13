@@ -10,6 +10,7 @@ import Cart from "./components/cart/Cart";
 import History from "./components/orderHistory/OrderHistory";
 import CrearProducto from "./components/productList/ProductosCrud";
 import Clientes from "./components/adminDashboard/Clientes.jsx";
+import List from "./components/orderHistory/OrderList.jsx";
 import { CartProvider } from "./context/CartContext";
 import { ProductsProvider } from "./context/ProductsContext";
 import { UserProvider } from "./context/UserContext";
@@ -35,6 +36,7 @@ const App = () => {
               <Route path="/history" element={<History />} />
               <Route path="/crearproducto" element={<CrearProducto />} />{" "}
               <Route path="/clientes" element={<Clientes />} />
+              <Route path="/list" element={<List />} />
             </Routes>
             <Footer />
           </Router>

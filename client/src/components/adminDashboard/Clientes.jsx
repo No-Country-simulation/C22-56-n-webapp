@@ -9,6 +9,7 @@ import {
   ListGroup,
   Spinner,
   Alert,
+  Card,
 } from "react-bootstrap";
 
 function Clientes() {
@@ -96,7 +97,7 @@ function Clientes() {
 
   if (cargando) {
     return (
-      <Container>
+      <Container className="text-center mt-5">
         <Spinner animation="border" variant="primary" />
         <span> Cargando...</span>
       </Container>
@@ -105,21 +106,28 @@ function Clientes() {
 
   if (error) {
     return (
-      <Container>
-        <Alert variant="danger">Error: {error}</Alert>
+      <Container className="mt-5">
+        <Alert variant="danger" className="alert-dismissible fade show">
+          <strong>Error:</strong> {error}
+        </Alert>
       </Container>
     );
   }
 
+  // Filtramos los clientes para que no se muestren aquellos con rol "admin"
+  const clientesFiltrados = clientes.filter(
+    (cliente) => cliente.role !== "admin"
+  );
+
   return (
-    <Container>
-      <h1 className="my-4">Clientes</h1>
+    <Container className="mt-5">
+      <h1 className="mb-4 text-center">Clientes</h1>
 
       {editingUser && (
-        <div>
-          <h2>Editar Usuario</h2>
-          <Form onSubmit={handleUpdate} className="mb-4">
-            <Row>
+        <div className="mb-5">
+          <h2 className="mb-4 text-center">Editar Usuario</h2>
+          <Form onSubmit={handleUpdate}>
+            <Row className="mb-3">
               <Col md={6}>
                 <Form.Group controlId="formName">
                   <Form.Label>Nombre</Form.Label>
@@ -145,7 +153,7 @@ function Clientes() {
                 </Form.Group>
               </Col>
             </Row>
-            <Row>
+            <Row className="mb-3">
               <Col md={6}>
                 <Form.Group controlId="formAddress">
                   <Form.Label>Dirección</Form.Label>
@@ -171,7 +179,7 @@ function Clientes() {
                 </Form.Group>
               </Col>
             </Row>
-            <Row>
+            <Row className="mb-3">
               <Col md={6}>
                 <Form.Group controlId="formRole">
                   <Form.Label>Rol</Form.Label>
@@ -197,32 +205,48 @@ function Clientes() {
                 </Form.Group>
               </Col>
             </Row>
-            <Button variant="primary" type="submit">
-              Actualizar
-            </Button>
+            <div className="text-center">
+              <Button variant="primary" type="submit" className="mt-3">
+                Actualizar
+              </Button>
+            </div>
           </Form>
         </div>
       )}
 
       <ListGroup>
-        {clientes.map((cliente) => (
-          <ListGroup.Item key={cliente.id} className="mb-3">
-            <h4>{cliente.name}</h4>
-            <p>Email: {cliente.email}</p>
-            <p>Dirección: {cliente.address}</p>
-            <p>DNI: {cliente.dni}</p>
-            <p>Rol: {cliente.role}</p>
+        {clientesFiltrados.map((cliente) => (
+          <ListGroup.Item key={cliente.id} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>{cliente.name}</Card.Title>
+                <Card.Text>
+                  <strong>Email:</strong> {cliente.email}
+                  <br />
+                  <strong>Dirección:</strong> {cliente.address}
+                  <br />
+                  <strong>DNI:</strong> {cliente.dni}
+                  <br />
+                  <strong>Rol:</strong> {cliente.role}
+                </Card.Text>
 
-            <Button
-              variant="warning"
-              onClick={() => handleEdit(cliente)}
-              className="mr-2"
-            >
-              Editar
-            </Button>
-            <Button variant="danger" onClick={() => handleDelete(cliente.id)}>
-              Eliminar
-            </Button>
+                <div className="d-flex justify-content-start">
+                  <Button
+                    variant="warning"
+                    onClick={() => handleEdit(cliente)}
+                    className="mr-2"
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDelete(cliente.id)}
+                  >
+                    Eliminar
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
           </ListGroup.Item>
         ))}
       </ListGroup>

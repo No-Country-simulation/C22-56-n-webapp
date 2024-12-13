@@ -19,6 +19,7 @@ const NavbarActions = ({
     if (user) {
       setUser(null);
       localStorage.removeItem("user");
+      navigate("/");
     } else {
       setShowLoginModal(true);
     }
@@ -81,7 +82,8 @@ const NavbarActions = ({
         </>
       )}
 
-      {user && (
+      {/* Solo mostrar carrito si no es un admin */}
+      {user && user.role !== "admin" && (
         <li className="nav-item me-3">
           <button
             className="btn btn-light position-relative"
