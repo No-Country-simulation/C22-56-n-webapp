@@ -9,6 +9,7 @@ import ProductDetails from "./components/productDetails/ProductDetails";
 import Cart from "./components/cart/Cart";
 import History from "./components/orderHistory/OrderHistory";
 import CrearProducto from "./components/productList/ProductosCrud";
+import Clientes from "./components/adminDashboard/Clientes.jsx";
 import { CartProvider } from "./context/CartContext";
 import { ProductsProvider } from "./context/ProductsContext";
 import { UserProvider } from "./context/UserContext";
@@ -33,7 +34,7 @@ const App = () => {
               <Route path="/cart" element={<Cart />} />
               <Route path="/history" element={<History />} />
               <Route path="/crearproducto" element={<CrearProducto />} />{" "}
-              {/* Add the new route */}
+              <Route path="/clientes" element={<Clientes />} />
             </Routes>
             <Footer />
           </Router>

@@ -10,6 +10,11 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Usuario no encontrado" });
     }
 
+    // Aquí podrías agregar la validación de la contraseña, por ejemplo:
+    // if (user.password !== password) {
+    //   return res.status(400).json({ message: "Contraseña incorrecta" });
+    // }
+
     res.json({ message: "Login exitoso", user });
   } catch (error) {
     console.error(error);
@@ -101,7 +106,9 @@ const deleteUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: ["id", "email", "name", "address", "dni", "role"],
+    });
     res.status(200).json(users);
   } catch (error) {
     console.error(error);

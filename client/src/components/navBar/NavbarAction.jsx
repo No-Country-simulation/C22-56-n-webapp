@@ -2,6 +2,7 @@ import React from "react";
 import { FaShoppingCart, FaChartLine } from "react-icons/fa";
 import CartBadge from "./CartBadge";
 import { useUser } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const NavbarActions = ({
   goToCart,
@@ -12,6 +13,7 @@ const NavbarActions = ({
   setShowContactModal,
 }) => {
   const { user, setUser } = useUser();
+  const navigate = useNavigate();
 
   const handleLoginLogout = () => {
     if (user) {
@@ -20,6 +22,14 @@ const NavbarActions = ({
     } else {
       setShowLoginModal(true);
     }
+  };
+
+  const goToClients = () => {
+    navigate("/clientes");
+  };
+
+  const goToHistoryPage = () => {
+    navigate("/history");
   };
 
   return (
@@ -50,25 +60,39 @@ const NavbarActions = ({
           Contacto
         </button>
       </li>
-      <li className="nav-item me-3">
-        <button
-          className="btn btn-light position-relative"
-          onClick={goToHistory}
-          style={{ border: "none", background: "none" }}
-        >
-          <FaChartLine size={24} color="#007bff" />
-        </button>
-      </li>
-      <li className="nav-item me-3">
-        <button
-          className="btn btn-light position-relative"
-          onClick={goToCart}
-          style={{ border: "none" }}
-        >
-          <FaShoppingCart size={24} color="#007bff" />
-          <CartBadge cart={cart} />
-        </button>
-      </li>
+
+      {/* Mostrar solo si el usuario está logueado y es admin */}
+      {user && user.role === "admin" && (
+        <>
+          <li className="nav-item me-3">
+            <button className="btn btn-info" onClick={goToClients}>
+              Clientes
+            </button>
+          </li>
+          <li className="nav-item me-3">
+            <button
+              className="btn btn-light position-relative"
+              onClick={goToHistoryPage}
+              style={{ border: "none", background: "none" }}
+            >
+              <FaChartLine size={24} color="#007bff" />
+            </button>
+          </li>
+        </>
+      )}
+
+      {user && (
+        <li className="nav-item me-3">
+          <button
+            className="btn btn-light position-relative"
+            onClick={goToCart}
+            style={{ border: "none" }}
+          >
+            <FaShoppingCart size={24} color="#007bff" />
+            <CartBadge cart={cart} />
+          </button>
+        </li>
+      )}
     </ul>
   );
 };

@@ -5,9 +5,8 @@ import SearchSection from "./SearchSection.jsx";
 import ProductCardsSection from "./ProductCardSection.jsx";
 import PaginationSection from "./PaginationSection.jsx";
 import Order from "../order/Order.jsx";
-import NoProductsFound from "./NoProductsFound.jsx";
-import ProductosCrud from "./ProductosCrud.jsx";
 import axios from "axios";
+import { useUser } from "../../context/UserContext.jsx";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -17,7 +16,8 @@ const ProductList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  const [showCrud, setShowCrud] = useState(false);
+
+  const { userType } = useUser();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -82,12 +82,14 @@ const ProductList = () => {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
         />
-        <button
-          className="btn btn-primary btn-sm mb-4"
-          onClick={handleCreateProductClick}
-        >
-          Crear Producto
-        </button>
+        {userType === "admin" && (
+          <button
+            className="btn btn-primary btn-sm mb-4"
+            onClick={handleCreateProductClick}
+          >
+            Crear Producto
+          </button>
+        )}
 
         <div className="row">
           <div className="col-md-3 mb-4">
