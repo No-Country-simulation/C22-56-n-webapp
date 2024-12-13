@@ -53,14 +53,18 @@ const NavbarActions = ({
           </button>
         </li>
       )}
-      <li className="nav-item me-3">
-        <button
-          className="btn btn-secondary"
-          onClick={() => setShowContactModal(true)}
-        >
-          Contacto
-        </button>
-      </li>
+
+      {/* Mostrar el botón de Contacto siempre, independientemente de si el usuario es admin o no */}
+      {user && (
+        <li className="nav-item me-3">
+          <button
+            className="btn btn-secondary"
+            onClick={() => setShowContactModal(true)}
+          >
+            Contacto
+          </button>
+        </li>
+      )}
 
       {/* Mostrar solo si el usuario está logueado y es admin */}
       {user && user.role === "admin" && (
