@@ -6,13 +6,12 @@ const { sequelize } = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const contactoRoutes = require("./routes/contactoRoutes");
 const productoRoutes = require("./routes/productoRoutes");
-const pedidoRoutes = require("./routes/pedidoRoutes");
+const orderRoutes = require("./routes/OrderRoutes");
 
 const User = require("./models/User");
 const Producto = require("./models/Producto");
 const Contacto = require("./models/Contacto");
-const Pedido = require("./models/Pedido");
-const ProductoPedido = require("./models/ProductoPedido");
+const Order = require("./models/Order");
 
 dotenv.config();
 
@@ -20,15 +19,6 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
-
-sequelize
-  .sync({ force: false })
-  .then(() => {
-    console.log("Tablas sincronizadas");
-  })
-  .catch((error) => {
-    console.error("Error al sincronizar las tablas:", error);
-  });
 
 User.hasMany(Producto, {
   foreignKey: "userId",
@@ -46,37 +36,35 @@ Contacto.belongsTo(User, {
   foreignKey: "userId",
 });
 
-// Relación entre User y Pedido
-User.hasMany(Pedido, {
+User.hasMany(Order, {
   foreignKey: "userId",
   onDelete: "CASCADE",
 });
-
-Pedido.belongsTo(User, {
+Order.belongsTo(User, {
   foreignKey: "userId",
 });
 
-// Relación entre Pedido y ProductoPedido
-Pedido.hasMany(ProductoPedido, {
-  foreignKey: "pedidoId",
+Producto.hasMany(Order, {
+  foreignKey: "productoId",
   onDelete: "CASCADE",
 });
-ProductoPedido.belongsTo(Pedido, {
-  foreignKey: "pedidoId",
+Order.belongsTo(Producto, {
+  foreignKey: "productoId",
 });
 
-// Relación entre Producto y ProductoPedido
-Producto.hasMany(ProductoPedido, {
-  foreignKey: "productoId",
-});
-ProductoPedido.belongsTo(Producto, {
-  foreignKey: "productoId",
-});
+sequelize
+  .sync({ force: true })
+  .then(() => {
+    console.log("Tablas sincronizadas");
+  })
+  .catch((error) => {
+    console.error("Error al sincronizar las tablas:", error);
+  });
 
 app.use("/api", userRoutes);
 app.use("/api", contactoRoutes);
 app.use("/api", productoRoutes);
-app.use("/api", pedidoRoutes);
+app.use("/api", orderRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

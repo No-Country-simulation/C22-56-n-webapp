@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useCart } from "../../context/CartContext";
+import { useUser } from "../../context/UserContext";
 import * as XLSX from "xlsx";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
+import axios from "axios";
 
 function OrderHistory() {
   const { cart } = useCart();
+  const { user, userType } = useUser();
   const [orderHistory, setOrderHistory] = useState([]);
 
   useEffect(() => {
@@ -15,10 +18,13 @@ function OrderHistory() {
     }
   }, []);
 
-  const generateExcel = () => {
+  const generateExcel = async () => {
     const ws = XLSX.utils.json_to_sheet(
       orderHistory.flatMap((order) =>
         order.items.map((item) => ({
+          Usuario: order.user.name,
+          Email: order.user.email,
+          TipoUsuario: order.user.userType,
           Producto: item.name,
           Cantidad: item.count,
           PrecioUnitario: item.price,
@@ -31,6 +37,29 @@ function OrderHistory() {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Historial de Compras");
     XLSX.writeFile(wb, "historial_compras.xlsx");
+
+    try {
+      for (const order of orderHistory) {
+        for (const item of order.items) {
+          const newOrder = {
+            date: order.date,
+            name: item.name,
+            count: item.count,
+            price: item.price,
+            user: {
+              name: order.user.name,
+              email: order.user.email,
+              userType: order.user.userType,
+            },
+          };
+
+          await axios.post("/orders", newOrder);
+        }
+      }
+      alert("Archivo Excel generado y datos enviados a /orders");
+    } catch (error) {
+      console.error("Error al enviar los datos a /orders:", error);
+    }
   };
 
   const clearOrderHistory = () => {
@@ -87,6 +116,9 @@ function OrderHistory() {
                     <h5 className="card-title">
                       Compra del {new Date(order.date).toLocaleString()}
                     </h5>
+                    <h6 className="text-muted">
+                      Usuario: {order.user.name} ({order.user.email})
+                    </h6>
                     <ul className="list-unstyled">
                       {order.items.map((item, idx) => (
                         <li key={idx}>

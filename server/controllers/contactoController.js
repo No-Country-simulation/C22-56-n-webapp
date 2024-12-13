@@ -7,7 +7,6 @@ const createMessage = async (req, res) => {
       nombre,
       correo,
       mensaje,
-      userId,
     });
     res.status(201).json(nuevoMensaje);
   } catch (error) {

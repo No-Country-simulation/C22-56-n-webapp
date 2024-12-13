@@ -1,5 +1,6 @@
 import React from "react";
 import { useCart } from "../../context/CartContext";
+import { useUser } from "../../context/UserContext";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import logo from "../../assets/logo.jpg";
@@ -10,6 +11,7 @@ import CartFooter from "./CartFooter";
 
 function Cart() {
   const { cart, setCart, products, setProducts } = useCart();
+  const { user, userType } = useUser();
 
   const removeFromCart = (productToRemove) => {
     const updatedCart = cart.filter(
@@ -123,6 +125,11 @@ function Cart() {
 
     const newOrder = {
       date: new Date(),
+      user: {
+        name: user.name,
+        email: user.email,
+        userType: userType,
+      },
       items: uniqueProducts.map((product) => ({
         name: product.name,
         price: product.price,
