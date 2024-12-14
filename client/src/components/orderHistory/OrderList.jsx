@@ -12,7 +12,7 @@ const OrderList = () => {
     try {
       const response = await axios.get("/orders");
       setOrders(response.data);
-      setFilteredOrders(response.data); // Initially, set filtered orders to all orders
+      setFilteredOrders(response.data);
     } catch (err) {
       setError("No se pudieron cargar los pedidos.");
     }
@@ -45,9 +45,24 @@ const OrderList = () => {
     }
   };
 
+  // Group orders by username
+  const groupOrdersByUser = (orders) => {
+    return orders.reduce((groups, order) => {
+      const user = order.userName;
+      if (!groups[user]) {
+        groups[user] = [];
+      }
+      groups[user].push(order);
+      return groups;
+    }, {});
+  };
+
   useEffect(() => {
     fetchOrders();
   }, []);
+
+  // Group filtered orders by user name
+  const groupedOrders = groupOrdersByUser(filteredOrders);
 
   return (
     <div className="container mt-4">
@@ -70,51 +85,52 @@ const OrderList = () => {
         />
       </div>
 
-      <table className="table table-bordered table-hover">
-        <thead className="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Fecha</th>
-            <th>Nombre</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-            <th>Usuario</th>
-            <th>Email</th>
-            <th>Tipo de Usuario</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredOrders.length > 0 ? (
-            filteredOrders.map((order) => (
-              <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.date}</td>
-                <td>{order.name}</td>
-                <td>{order.count}</td>
-                <td>${order.price}</td>
-                <td>{order.userName}</td>
-                <td>{order.userEmail}</td>
-                <td>{order.userType}</td>
-                <td>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => deleteOrder(order.id)}
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="9" className="text-center">
-                No hay pedidos disponibles
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      {Object.keys(groupedOrders).length > 0 ? (
+        Object.keys(groupedOrders).map((userName) => (
+          <div key={userName}>
+            <h3>Pedidos de {userName}</h3>
+            <table className="table table-bordered table-hover">
+              <thead className="table-dark">
+                <tr>
+                  <th>ID</th>
+                  <th>Fecha</th>
+                  <th>Nombre</th>
+                  <th>Cantidad</th>
+                  <th>Precio</th>
+                  <th>Usuario</th>
+                  <th>Email</th>
+                  <th>Tipo de Usuario</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {groupedOrders[userName].map((order) => (
+                  <tr key={order.id}>
+                    <td>{order.id}</td>
+                    <td>{order.date}</td>
+                    <td>{order.name}</td>
+                    <td>{order.count}</td>
+                    <td>${order.price}</td>
+                    <td>{order.userName}</td>
+                    <td>{order.userEmail}</td>
+                    <td>{order.userType}</td>
+                    <td>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteOrder(order.id)}
+                      >
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))
+      ) : (
+        <div className="text-center">No hay pedidos disponibles</div>
+      )}
     </div>
   );
 };

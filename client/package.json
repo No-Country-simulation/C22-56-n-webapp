@@ -19,6 +19,7 @@
     "bootstrap": "^5.3.3",
     "c22-56-n-webapp": "file:",
     "chart.js": "^4.4.7",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
     "pdfmake": "^0.2.15",

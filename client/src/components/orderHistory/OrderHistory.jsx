@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useCart } from "../../context/CartContext";
 import { useUser } from "../../context/UserContext";
-import * as XLSX from "xlsx";
-import { Line } from "react-chartjs-2";
-import { Chart as ChartJS } from "chart.js/auto";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import axios from "axios";
+import * as XLSX from "xlsx"; // Importa XLSX para la función de exportar a Excel
+
+ChartJS.register(ArcElement, Tooltip, Legend, Title, ChartDataLabels);
 
 function OrderHistory() {
   const { cart } = useCart();
@@ -17,6 +20,90 @@ function OrderHistory() {
       setOrderHistory(JSON.parse(storedHistory));
     }
   }, []);
+
+  const clearOrderHistory = () => {
+    localStorage.removeItem("orderHistory");
+    setOrderHistory([]);
+  };
+
+  // Función para eliminar un pedido específico
+  const deleteOrder = (orderIndex) => {
+    const updatedHistory = orderHistory.filter(
+      (_, index) => index !== orderIndex
+    );
+    setOrderHistory(updatedHistory);
+    localStorage.setItem("orderHistory", JSON.stringify(updatedHistory));
+  };
+
+  const getSalesByUserAndProduct = (userName) => {
+    const userOrders = orderHistory.filter(
+      (order) => order.user.name === userName
+    );
+    const salesByProduct = userOrders.reduce((acc, order) => {
+      order.items.forEach((item) => {
+        acc[item.name] = (acc[item.name] || 0) + item.count * item.price;
+      });
+      return acc;
+    }, {});
+
+    return salesByProduct;
+  };
+
+  const getChartData = (userName) => {
+    const salesByProduct = getSalesByUserAndProduct(userName);
+    const products = Object.keys(salesByProduct);
+    const sales = products.map((product) => salesByProduct[product]);
+    const totalSales = sales.reduce((sum, sale) => sum + sale, 0);
+
+    return {
+      labels: products,
+      datasets: [
+        {
+          label: `Ventas por Producto de ${userName}`,
+          data: sales,
+          backgroundColor: [
+            "rgba(75, 192, 192, 0.6)",
+            "rgba(153, 102, 255, 0.6)",
+            "rgba(255, 159, 64, 0.6)",
+            "rgba(54, 162, 235, 0.6)",
+            "rgba(255, 99, 132, 0.6)",
+            "rgba(255, 205, 86, 0.6)",
+          ],
+          borderColor: [
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 99, 132, 1)",
+            "rgba(255, 205, 86, 1)",
+          ],
+          borderWidth: 1,
+        },
+      ],
+      options: {
+        responsive: true,
+        plugins: {
+          datalabels: {
+            color: "#fff",
+            formatter: (value) => {
+              const percentage = ((value / totalSales) * 100).toFixed(2);
+              return `${percentage}%`;
+            },
+            font: {
+              weight: "bold",
+              size: 14,
+            },
+            position: "outside",
+          },
+        },
+      },
+    };
+  };
+
+  const getUniqueUsers = () => {
+    const users = orderHistory.map((order) => order.user.name);
+    return [...new Set(users)];
+  };
 
   const generateExcel = async () => {
     const ws = XLSX.utils.json_to_sheet(
@@ -37,9 +124,16 @@ function OrderHistory() {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Historial de Compras");
     XLSX.writeFile(wb, "historial_compras.xlsx");
+    alert("Archivo Excel generado.");
+  };
+
+  const sendOrderToServer = async (userName) => {
+    const userOrders = orderHistory.filter(
+      (order) => order.user.name === userName
+    );
 
     try {
-      for (const order of orderHistory) {
+      for (const order of userOrders) {
         for (const item of order.items) {
           const newOrder = {
             date: order.date,
@@ -56,42 +150,11 @@ function OrderHistory() {
           await axios.post("/orders", newOrder);
         }
       }
-      alert("Archivo Excel generado y datos enviados a /orders");
+      alert(`Pedidos de ${userName} enviados exitosamente.`);
     } catch (error) {
       console.error("Error al enviar los datos a /orders:", error);
+      alert("Hubo un error al enviar los pedidos.");
     }
-  };
-
-  const clearOrderHistory = () => {
-    localStorage.removeItem("orderHistory");
-    setOrderHistory([]);
-  };
-
-  const getChartData = () => {
-    const salesByDate = orderHistory.reduce((acc, order) => {
-      const date = new Date(order.date).toLocaleDateString();
-      const total = order.items.reduce(
-        (sum, item) => sum + item.count * item.price,
-        0
-      );
-      acc[date] = (acc[date] || 0) + total;
-      return acc;
-    }, {});
-
-    const dates = Object.keys(salesByDate);
-    const sales = dates.map((date) => salesByDate[date]);
-
-    return {
-      labels: dates,
-      datasets: [
-        {
-          label: "Ventas Totales por Día",
-          data: sales,
-          borderColor: "rgba(75, 192, 192, 1)",
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
-        },
-      ],
-    };
   };
 
   return (
@@ -102,7 +165,7 @@ function OrderHistory() {
       <div className="flex-grow-1">
         <h2 className="text-center mb-4">Historial de Ventas</h2>
         {orderHistory.length === 0 ? (
-          <p className="text-center text-muted">No hay historial de compras.</p>
+          <p className="text-center text-muted">No hay historial de ventas.</p>
         ) : (
           <>
             <div className="list-group">
@@ -133,6 +196,12 @@ function OrderHistory() {
                         .reduce((sum, item) => sum + item.count * item.price, 0)
                         .toFixed(2)}
                     </h6>
+                    <button
+                      className="btn btn-danger mt-2"
+                      onClick={() => deleteOrder(index)}
+                    >
+                      Eliminar Compra
+                    </button>
                   </div>
                 </div>
               ))}
@@ -150,8 +219,29 @@ function OrderHistory() {
             </div>
 
             <div className="mt-4" style={{ marginTop: "20px" }}>
-              <h4>Ventas por Día</h4>
-              <Line data={getChartData()} />
+              <h4>Ventas por Producto por Usuario</h4>
+              <div className="row">
+                {getUniqueUsers().map((userName, index) => (
+                  <div key={index} className="col-md-4 mb-4">
+                    <h5>{userName}</h5>
+                    <div
+                      className="chart-container"
+                      style={{ width: "300px", height: "300px" }}
+                    >
+                      <Pie
+                        data={getChartData(userName)}
+                        options={getChartData(userName).options}
+                      />
+                    </div>
+                    <button
+                      className="btn btn-success mt-2"
+                      onClick={() => sendOrderToServer(userName)}
+                    >
+                      Enviar Pedido
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </>
         )}
