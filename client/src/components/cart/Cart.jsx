@@ -3,11 +3,11 @@ import { useCart } from "../../context/CartContext";
 import { useUser } from "../../context/UserContext";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
+import axios from "axios";
 import logo from "../../assets/logo.jpg";
 import CartHeader from "./CartHeader";
 import CartProduct from "./CartProduct";
 import CartTotal from "./CartTotal";
-import CartFooter from "./CartFooter";
 
 function Cart() {
   const { cart, setCart, products, setProducts } = useCart();
@@ -145,6 +145,30 @@ function Cart() {
     setCart([]);
   };
 
+  const sendOrderToServer = async () => {
+    try {
+      for (const product of uniqueProducts) {
+        const newOrder = {
+          date: new Date(),
+          name: product.name,
+          count: product.count,
+          price: product.price,
+          user: {
+            name: user.name,
+            email: user.email,
+            userType: userType,
+          },
+        };
+
+        await axios.post("/orders", newOrder);
+      }
+      alert(`Pedido enviado exitosamente.`);
+    } catch (error) {
+      console.error("Error al enviar los datos a /orders:", error);
+      alert("Hubo un error al enviar el pedido.");
+    }
+  };
+
   return (
     <div
       className="d-flex flex-column min-vh-100"
@@ -169,7 +193,17 @@ function Cart() {
         )}
         {uniqueProducts.length > 0 && <CartTotal totalPrice={totalPrice} />}
         {uniqueProducts.length > 0 && (
-          <CartFooter onGeneratePDF={generatePDF} />
+          <div className="text-center mt-4">
+            <button className="btn btn-primary" onClick={generatePDF}>
+              Generar PDF
+            </button>
+            <button
+              className="btn btn-success ms-2"
+              onClick={sendOrderToServer}
+            >
+              Enviar Pedido
+            </button>
+          </div>
         )}
       </div>
     </div>
