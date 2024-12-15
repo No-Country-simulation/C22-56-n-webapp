@@ -29,7 +29,7 @@ const User = sequelize.define("User", {
     allowNull: false,
     defaultValue: "user",
     validate: {
-      isIn: [["admin", "vendor", "user"]],
+      isIn: [["admin", "vendor", "user", "shipment"]],
     },
   },
 });

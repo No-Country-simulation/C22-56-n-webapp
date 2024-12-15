@@ -1,6 +1,5 @@
 const Order = require("../models/Order");
 
-// Crear un nuevo pedido
 exports.createOrder = async (req, res) => {
   try {
     const { date, name, count, price, user } = req.body;

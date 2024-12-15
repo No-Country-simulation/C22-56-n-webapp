@@ -7,11 +7,13 @@ const userRoutes = require("./routes/userRoutes");
 const contactoRoutes = require("./routes/contactoRoutes");
 const productoRoutes = require("./routes/productoRoutes");
 const orderRoutes = require("./routes/OrderRoutes");
+const shipmentRoutes = require("./routes/shipmentRoutes");
 
 const User = require("./models/User");
 const Producto = require("./models/Producto");
 const Contacto = require("./models/Contacto");
 const Order = require("./models/Order");
+const Shipment = require("./models/Shipment");
 
 dotenv.config();
 
@@ -52,8 +54,24 @@ Order.belongsTo(Producto, {
   foreignKey: "productoId",
 });
 
+User.hasMany(Shipment, {
+  foreignKey: "userId",
+  onDelete: "CASCADE",
+});
+Shipment.belongsTo(User, {
+  foreignKey: "userId",
+});
+
+Producto.hasMany(Shipment, {
+  foreignKey: "productoId",
+  onDelete: "CASCADE",
+});
+Shipment.belongsTo(Producto, {
+  foreignKey: "productoId",
+});
+
 sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     console.log("Tablas sincronizadas");
   })
@@ -65,6 +83,7 @@ app.use("/api", userRoutes);
 app.use("/api", contactoRoutes);
 app.use("/api", productoRoutes);
 app.use("/api", orderRoutes);
+app.use("/api", shipmentRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
