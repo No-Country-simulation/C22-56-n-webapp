@@ -127,36 +127,6 @@ function OrderHistory() {
     alert("Archivo Excel generado.");
   };
 
-  const sendOrderToServer = async (userName) => {
-    const userOrders = orderHistory.filter(
-      (order) => order.user.name === userName
-    );
-
-    try {
-      for (const order of userOrders) {
-        for (const item of order.items) {
-          const newOrder = {
-            date: order.date,
-            name: item.name,
-            count: item.count,
-            price: item.price,
-            user: {
-              name: order.user.name,
-              email: order.user.email,
-              userType: order.user.userType,
-            },
-          };
-
-          await axios.post("/orders", newOrder);
-        }
-      }
-      alert(`Pedidos de ${userName} enviados exitosamente.`);
-    } catch (error) {
-      console.error("Error al enviar los datos a /orders:", error);
-      alert("Hubo un error al enviar los pedidos.");
-    }
-  };
-
   return (
     <div
       className="d-flex flex-column min-vh-100"
@@ -200,7 +170,7 @@ function OrderHistory() {
                       className="btn btn-danger mt-2"
                       onClick={() => deleteOrder(index)}
                     >
-                      Eliminar Compra
+                      Eliminar ventas
                     </button>
                   </div>
                 </div>
@@ -233,12 +203,6 @@ function OrderHistory() {
                         options={getChartData(userName).options}
                       />
                     </div>
-                    <button
-                      className="btn btn-success mt-2"
-                      onClick={() => sendOrderToServer(userName)}
-                    >
-                      Enviar Pedido
-                    </button>
                   </div>
                 ))}
               </div>

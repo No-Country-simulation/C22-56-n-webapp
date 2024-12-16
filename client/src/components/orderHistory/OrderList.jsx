@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
@@ -26,6 +25,29 @@ const OrderList = () => {
       setFilteredOrders(updatedOrders); // Ensure filter stays in sync
     } catch (err) {
       setError("No se pudo eliminar el pedido.");
+    }
+  };
+
+  const sendOrderToShipment = async (order) => {
+    try {
+      const shipmentData = {
+        id: order.id,
+        date: order.date,
+        name: order.name,
+        count: order.count,
+        price: order.price,
+        user: {
+          name: order.userName,
+          email: order.userEmail,
+          userType: order.userType,
+        },
+      };
+
+      await axios.post("/shipment", shipmentData);
+      alert(`El pedido con ID ${order.id} fue enviado al envío correctamente.`);
+    } catch (err) {
+      console.error("Error al enviar el pedido a la ruta /shipment:", err);
+      setError("Hubo un error al enviar el pedido al envío.");
     }
   };
 
@@ -116,10 +138,16 @@ const OrderList = () => {
                     <td>{order.userType}</td>
                     <td>
                       <button
-                        className="btn btn-danger"
+                        className="btn btn-danger me-2"
                         onClick={() => deleteOrder(order.id)}
                       >
                         Eliminar
+                      </button>
+                      <button
+                        className="btn btn-success"
+                        onClick={() => sendOrderToShipment(order)}
+                      >
+                        Enviar a Envío
                       </button>
                     </td>
                   </tr>

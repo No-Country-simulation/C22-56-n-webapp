@@ -11,22 +11,59 @@ const NavbarLinks = () => {
           Inicio
         </a>
       </li>
-      <li className="nav-item me-3">
-        <a className="nav-link" href="/about">
-          Acerca de
-        </a>
-      </li>
-      <li className="nav-item me-3">
-        <a className="nav-link" href="/product">
-          Productos
-        </a>
-      </li>
-      {user && userType === "admin" && (
+      {!user && (
+        <>
+          <li className="nav-item me-3">
+            <a className="nav-link" href="/about">
+              Acerca de
+            </a>
+          </li>
+          <li className="nav-item me-3">
+            <a className="nav-link" href="/product">
+              Productos
+            </a>
+          </li>
+        </>
+      )}
+      {user && userType === "client" && (
+        <>
+          <li className="nav-item me-3">
+            <a className="nav-link" href="/about">
+              Acerca de
+            </a>
+          </li>
+          <li className="nav-item me-3">
+            <a className="nav-link" href="/product">
+              Productos
+            </a>
+          </li>
+        </>
+      )}
+      {user && userType === "shipment" && (
         <li className="nav-item me-3">
-          <a className="nav-link" href="/list">
-            Pedidos
+          <a className="nav-link" href="/flete">
+            Envios
           </a>
         </li>
+      )}
+      {user && userType === "admin" && (
+        <>
+          <li className="nav-item me-3">
+            <a className="nav-link" href="/list">
+              Pedidos
+            </a>
+          </li>
+          <li className="nav-item me-3">
+            <a className="nav-link" href="/flete">
+              Envios
+            </a>
+          </li>
+          <li className="nav-item me-3">
+            <a className="nav-link" href="/product">
+              Productos
+            </a>
+          </li>
+        </>
       )}
     </ul>
   );
