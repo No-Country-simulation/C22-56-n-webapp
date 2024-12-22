@@ -74,6 +74,27 @@ function Cart() {
 
         await axios.post("/orders", newOrder);
       }
+
+      // Agregar el pedido al historial en localStorage
+      const newOrder = {
+        date: new Date(),
+        user: {
+          name: user.name,
+          email: user.email,
+          userType: userType,
+        },
+        items: uniqueProducts.map((product) => ({
+          name: product.name,
+          price: product.price,
+          count: product.count,
+        })),
+      };
+
+      const existingHistory =
+        JSON.parse(localStorage.getItem("orderHistory")) || [];
+      existingHistory.push(newOrder);
+      localStorage.setItem("orderHistory", JSON.stringify(existingHistory));
+
       alert(`Pedido enviado exitosamente.`);
 
       // Borrar el carrito de compras después de enviar el pedido
