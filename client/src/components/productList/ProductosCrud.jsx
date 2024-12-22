@@ -79,7 +79,11 @@ const ProductosCrud = () => {
       <h1 className="mb-4">Gestión de Productos</h1>
 
       <div className="mb-3">
+        <label htmlFor="name" className="form-label">
+          Nombre del producto
+        </label>
         <input
+          id="name"
           type="text"
           className="form-control mb-2"
           name="name"
@@ -87,7 +91,12 @@ const ProductosCrud = () => {
           value={producto.name}
           onChange={handleInputChange}
         />
+
+        <label htmlFor="price" className="form-label">
+          Precio del producto
+        </label>
         <input
+          id="price"
           type="number"
           className="form-control mb-2"
           name="price"
@@ -95,7 +104,12 @@ const ProductosCrud = () => {
           value={producto.price}
           onChange={handleInputChange}
         />
+
+        <label htmlFor="description" className="form-label">
+          Descripción del producto
+        </label>
         <input
+          id="description"
           type="text"
           className="form-control mb-2"
           name="description"
@@ -103,7 +117,12 @@ const ProductosCrud = () => {
           value={producto.description}
           onChange={handleInputChange}
         />
+
+        <label htmlFor="image" className="form-label">
+          URL de la imagen
+        </label>
         <input
+          id="image"
           type="text"
           className="form-control mb-2"
           name="image"
@@ -111,7 +130,12 @@ const ProductosCrud = () => {
           value={producto.image}
           onChange={handleInputChange}
         />
+
+        <label htmlFor="stock" className="form-label">
+          Stock del producto
+        </label>
         <input
+          id="stock"
           type="number"
           className="form-control mb-2"
           name="stock"
@@ -119,6 +143,7 @@ const ProductosCrud = () => {
           value={producto.stock}
           onChange={handleInputChange}
         />
+
         {editando ? (
           <button
             className="btn btn-primary"

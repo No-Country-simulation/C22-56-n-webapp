@@ -1,17 +1,14 @@
 import React from "react";
 import { useCart } from "../../context/CartContext";
 import { useUser } from "../../context/UserContext";
-import { jsPDF } from "jspdf";
-import "jspdf-autotable";
 import axios from "axios";
-import logo from "../../assets/logo.jpg";
 import CartHeader from "./CartHeader";
 import CartProduct from "./CartProduct";
 import CartTotal from "./CartTotal";
 
 function Cart() {
   const { cart, setCart, products, setProducts } = useCart();
-  const { user, userType } = useUser();
+  const { user, userType } = useUser(); // Accediendo al contexto UserContext
 
   const removeFromCart = (productToRemove) => {
     const updatedCart = cart.filter(
@@ -57,94 +54,6 @@ function Cart() {
     return sum + product.price * product.count;
   }, 0);
 
-  const generatePDF = () => {
-    const doc = new jsPDF();
-    doc.setFont("helvetica", "normal");
-
-    const logoSize = 40;
-    const logoX = 10;
-    const logoY = 10;
-    doc.setFillColor(255, 255, 255);
-    doc.ellipse(
-      logoX + logoSize / 2,
-      logoY + logoSize / 2,
-      logoSize / 2,
-      logoSize / 2,
-      "F"
-    );
-    doc.addImage(logo, "PNG", logoX, logoY, logoSize, logoSize);
-
-    doc.setFontSize(16);
-    doc.text("TICKET DE COMPRA", 200, 30, { align: "right" });
-
-    let startY = 60;
-    const imageSize = 20;
-
-    uniqueProducts.forEach((product, index) => {
-      const xImage = 10;
-      const yImage = startY + index * (imageSize + 10);
-
-      doc.setFillColor(255, 255, 255);
-      doc.ellipse(
-        xImage + imageSize / 2,
-        yImage + imageSize / 2,
-        imageSize / 2,
-        imageSize / 2,
-        "F"
-      );
-      doc.addImage(product.image, "PNG", xImage, yImage, imageSize, imageSize);
-
-      doc.setFontSize(12);
-      doc.text(product.name, xImage + imageSize + 5, yImage + 5);
-      doc.text(
-        `Cantidad: ${product.count}`,
-        xImage + imageSize + 5,
-        yImage + 10
-      );
-      doc.text(
-        `$${product.price.toFixed(2)}`,
-        xImage + imageSize + 5,
-        yImage + 15
-      );
-
-      startY = yImage + imageSize + 10;
-    });
-
-    doc.setFontSize(12);
-    doc.text(`Total de la compra: $${totalPrice.toFixed(2)}`, 10, startY + 10);
-
-    const pageHeight = doc.internal.pageSize.height;
-    doc.setFontSize(10);
-    doc.text(
-      `Fecha: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
-      10,
-      pageHeight - 10
-    );
-
-    doc.save("ticket_compra.pdf");
-
-    const newOrder = {
-      date: new Date(),
-      user: {
-        name: user.name,
-        email: user.email,
-        userType: userType,
-      },
-      items: uniqueProducts.map((product) => ({
-        name: product.name,
-        price: product.price,
-        count: product.count,
-      })),
-    };
-
-    const existingHistory =
-      JSON.parse(localStorage.getItem("orderHistory")) || [];
-    existingHistory.push(newOrder);
-    localStorage.setItem("orderHistory", JSON.stringify(existingHistory));
-
-    setCart([]);
-  };
-
   const sendOrderToServer = async () => {
     try {
       for (const product of uniqueProducts) {
@@ -157,12 +66,18 @@ function Cart() {
             name: user.name,
             email: user.email,
             userType: userType,
+            id: user.id, // Accediendo al id desde el contexto UserContext
+            address: user.address, // Accediendo a address desde el contexto UserContext
+            dni: user.dni, // Accediendo a dni desde el contexto UserContext
           },
         };
 
         await axios.post("/orders", newOrder);
       }
       alert(`Pedido enviado exitosamente.`);
+
+      // Borrar el carrito de compras después de enviar el pedido
+      setCart([]);
     } catch (error) {
       console.error("Error al enviar los datos a /orders:", error);
       alert("Hubo un error al enviar el pedido.");
@@ -194,9 +109,6 @@ function Cart() {
         {uniqueProducts.length > 0 && <CartTotal totalPrice={totalPrice} />}
         {uniqueProducts.length > 0 && (
           <div className="text-center mt-4">
-            <button className="btn btn-primary" onClick={generatePDF}>
-              Generar PDF
-            </button>
             <button
               className="btn btn-success ms-2"
               onClick={sendOrderToServer}

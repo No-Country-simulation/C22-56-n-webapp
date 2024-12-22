@@ -11,6 +11,9 @@ exports.createOrder = async (req, res) => {
       userName: user.name,
       userEmail: user.email,
       userType: user.userType,
+      userId: user.id, // Nuevo campo: ID del usuario
+      address: user.address, // Nuevo campo: Dirección del usuario
+      dni: user.dni, // Nuevo campo: DNI del usuario
     });
     res.status(201).json(newOrder);
   } catch (err) {

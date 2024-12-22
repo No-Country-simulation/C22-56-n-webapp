@@ -118,5 +118,33 @@ const getUsers = async (req, res) => {
     });
   }
 };
+const getUserById = async (req, res) => {
+  const { id } = req.params;
 
-module.exports = { login, register, updateUser, deleteUser, getUsers };
+  try {
+    const user = await User.findByPk(id, {
+      attributes: ["id", "email", "name", "address", "dni", "role"],
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error al obtener el usuario",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = {
+  login,
+  register,
+  updateUser,
+  deleteUser,
+  getUsers,
+  getUserById,
+};

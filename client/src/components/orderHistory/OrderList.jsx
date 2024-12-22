@@ -6,6 +6,7 @@ const OrderList = () => {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [error, setError] = useState(null);
   const [userFilter, setUserFilter] = useState("");
+  const [showUserData, setShowUserData] = useState({}); // State for controlling visibility of user data
 
   const fetchOrders = async () => {
     try {
@@ -36,15 +37,19 @@ const OrderList = () => {
         name: order.name,
         count: order.count,
         price: order.price,
-        user: {
-          name: order.userName,
-          email: order.userEmail,
-          userType: order.userType,
-        },
+        userName: order.userName,
+        userEmail: order.userEmail,
+        userType: order.userType,
+        userId: order.userId,
+        address: order.address,
+        dni: order.dni,
       };
 
       await axios.post("/shipment", shipmentData);
       alert(`El pedido con ID ${order.id} fue enviado al envío correctamente.`);
+
+      // After sending the order to shipment, also delete it
+      deleteOrder(order.id);
     } catch (err) {
       console.error("Error al enviar el pedido a la ruta /shipment:", err);
       setError("Hubo un error al enviar el pedido al envío.");
@@ -86,6 +91,14 @@ const OrderList = () => {
   // Group filtered orders by user name
   const groupedOrders = groupOrdersByUser(filteredOrders);
 
+  // Function to toggle visibility of user data
+  const toggleUserData = (userName) => {
+    setShowUserData((prevState) => ({
+      ...prevState,
+      [userName]: !prevState[userName], // Toggle visibility only for the current user
+    }));
+  };
+
   return (
     <div className="container mt-4">
       <h1 className="mb-4">Listado de Pedidos</h1>
@@ -110,7 +123,35 @@ const OrderList = () => {
       {Object.keys(groupedOrders).length > 0 ? (
         Object.keys(groupedOrders).map((userName) => (
           <div key={userName}>
-            <h3>Pedidos de {userName}</h3>
+            <h3>
+              Pedidos de {userName.toUpperCase()}{" "}
+              {/* Render userName in uppercase */}
+              <button
+                className="btn btn-info ms-3"
+                onClick={() => toggleUserData(userName)} // Toggle visibility for the current user
+              >
+                {showUserData[userName]
+                  ? "Ocultar Datos"
+                  : "Mostrar Datos del Usuario"}
+              </button>
+            </h3>
+
+            {showUserData[userName] && (
+              <div className="user-details mt-3">
+                <p>
+                  <strong>Usuario:</strong> {userName.toUpperCase()}{" "}
+                  {/* Render userName in uppercase */}
+                </p>
+                <p>
+                  <strong>Dirección:</strong>{" "}
+                  {groupedOrders[userName][0].address}
+                </p>
+                <p>
+                  <strong>DNI:</strong> {groupedOrders[userName][0].dni}
+                </p>
+              </div>
+            )}
+
             <table className="table table-bordered table-hover">
               <thead className="table-dark">
                 <tr>
@@ -133,7 +174,8 @@ const OrderList = () => {
                     <td>{order.name}</td>
                     <td>{order.count}</td>
                     <td>${order.price}</td>
-                    <td>{order.userName}</td>
+                    <td>{order.userName.toUpperCase()}</td>{" "}
+                    {/* Render userName in uppercase */}
                     <td>{order.userEmail}</td>
                     <td>{order.userType}</td>
                     <td>

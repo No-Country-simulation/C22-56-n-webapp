@@ -30,6 +30,21 @@ const Order = sequelize.define("Order", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  userId: {
+    // Nuevo campo para almacenar el ID del usuario
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  address: {
+    // Nuevo campo para almacenar la dirección del usuario
+    type: DataTypes.STRING,
+    allowNull: true, // Opcional, ya que no siempre es necesario
+  },
+  dni: {
+    // Nuevo campo para almacenar el DNI del usuario
+    type: DataTypes.STRING,
+    allowNull: true, // Opcional, ya que no siempre es necesario
+  },
 });
 
 module.exports = Order;

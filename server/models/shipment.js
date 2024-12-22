@@ -30,6 +30,21 @@ const Shipment = sequelize.define("Shipment", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  userId: {
+    // Nuevo campo: ID del usuario
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  address: {
+    // Nuevo campo: Dirección del usuario
+    type: DataTypes.STRING,
+    allowNull: true, // Opcional, puede ser nulo si no es obligatorio
+  },
+  dni: {
+    // Nuevo campo: DNI del usuario
+    type: DataTypes.STRING,
+    allowNull: true, // Opcional, puede ser nulo si no es obligatorio
+  },
 });
 
 module.exports = Shipment;

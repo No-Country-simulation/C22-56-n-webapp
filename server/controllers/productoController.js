@@ -61,6 +61,7 @@ const updateProduct = async (req, res) => {
       return res.status(404).json({ message: "Producto no encontrado" });
     }
 
+    // Actualiza solo los campos proporcionados, incluyendo el stock
     product.name = name || product.name;
     product.price = price || product.price;
     product.description = description || product.description;

@@ -36,15 +36,31 @@ const ProductList = () => {
     navigate(`/detail/${productId}`);
   };
 
-  const handleBuyClick = (productId) => {
+  const handleBuyClick = async (productId) => {
     const product = products.find((p) => p.id === productId);
     if (product && product.stock > 0) {
-      setProducts((prevProducts) =>
-        prevProducts.map((p) =>
-          p.id === productId ? { ...p, stock: p.stock - 1 } : p
-        )
-      );
-      addToCart(product);
+      try {
+        // Reducir el stock localmente en el estado
+        setProducts((prevProducts) =>
+          prevProducts.map((p) =>
+            p.id === productId ? { ...p, stock: p.stock - 1 } : p
+          )
+        );
+
+        // Enviar la actualización al servidor
+        await axios.put(`/productos/${productId}`, {
+          stock: product.stock - 1,
+        });
+
+        // Agregar el producto al carrito
+        addToCart(product);
+      } catch (error) {
+        console.error(
+          "Error actualizando el stock en la base de datos:",
+          error
+        );
+        alert("Error al comprar el producto. Intente de nuevo.");
+      }
     } else {
       alert("No hay stock disponible para este producto.");
     }
