@@ -1,8 +1,11 @@
 import React from "react";
 import LogoImage from "./LogoImage";
 import ProductGrid from "./ProductGrid";
+import { useUser } from "../../context/UserContext";
 
 const Home = () => {
+  const { user, userType } = useUser(); // Obtener el usuario y su rol desde el contexto
+
   const productImages = [
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrnIqhzzOaKK0NHg3akr1A9ERI8fd1gC81iw&s",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzUEeSjxQ7xrfI0fWjgvKvMWlMDuRD7VMPyQ&s",
@@ -25,7 +28,7 @@ const Home = () => {
     "https://mir-s3-cdn-cf.behance.net/projects/404/7308aa192368169.Y3JvcCwxODQxLDE0NDAsMjA5LDA.png",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB041M2I3GKtVMpSZ1UswPApWaTmgACu_K7g&s",
     "https://i0.wp.com/www.sitemarca.com/wp-content/uploads/2020/04/Banner_300x250px-03.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAGkeb83Rc8yI1iYBnxwPAseYdmOdvyKWtPA&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAGkeb83Rc8yIY1iYBnxwPAseYdmOdvyKWtPA&s",
     "https://http2.mlstatic.com/D_NQ_NP_780168-MLA79602406701_092024-O.webp",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtHC2oeHw7ApPZvBrT74OXnBlnGUPuNQv9nw&s",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcFnz00qgb-Le7TY1TMLjSm93yUdwbrZVs5Q&s",
@@ -46,29 +49,33 @@ const Home = () => {
     >
       <LogoImage />
       <ProductGrid images={productImages} />
-      <a
-        href={`https://wa.me/${whatsappNumber}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          right: "20px",
-          backgroundColor: "#25D366",
-          color: "white",
-          borderRadius: "50%",
-          width: "60px",
-          height: "60px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-          textDecoration: "none",
-          fontSize: "24px",
-        }}
-      >
-        <i className="fab fa-whatsapp" />{" "}
-      </a>
+
+      {/* Mostrar el icono de WhatsApp si el usuario es "client" y está logueado */}
+      {user && userType === "client" && (
+        <a
+          href={`https://wa.me/${whatsappNumber}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            backgroundColor: "#25D366",
+            color: "white",
+            borderRadius: "50%",
+            width: "60px",
+            height: "60px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+            textDecoration: "none",
+            fontSize: "24px",
+          }}
+        >
+          <i className="fab fa-whatsapp" />
+        </a>
+      )}
     </div>
   );
 };
