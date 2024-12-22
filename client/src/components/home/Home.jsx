@@ -33,6 +33,8 @@ const Home = () => {
     "https://i.pinimg.com/736x/d3/ed/fa/d3edfaed52ae2d57a6a8a348279c0b42.jpg",
   ];
 
+  const whatsappNumber = "1234567890";
+
   return (
     <div
       className="d-flex justify-content-center align-items-center"
@@ -44,6 +46,29 @@ const Home = () => {
     >
       <LogoImage />
       <ProductGrid images={productImages} />
+      <a
+        href={`https://wa.me/${whatsappNumber}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          backgroundColor: "#25D366",
+          color: "white",
+          borderRadius: "50%",
+          width: "60px",
+          height: "60px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          textDecoration: "none",
+          fontSize: "24px",
+        }}
+      >
+        <i className="fab fa-whatsapp" />{" "}
+      </a>
     </div>
   );
 };
